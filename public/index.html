@@ -3,671 +3,649 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The GPA Grimoire — Frisco ISD Weighted Scale</title>
+<title>GPA calculator — Frisco ISD weighted GPA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --plum:#1a0b14;
-    --plum-2:#2c1222;
-    --plum-3:#3f1a30;
-    --blush:#fffafb;
-    --blush-2:#fbe9ee;
-    --blush-3:#f3d5dd;
-    --ink:#3a1d2b;
-    --ink-2:#7b5468;
-    --rose:#b8516f;
-    --rose-deep:#8c2f4e;
-    --rose-hi:#f6d9d0;
-    --rose-gold:#d3a09a;
-    --rose-gold-hi:#f3d3c8;
-    --rg-dim:rgba(211,160,154,.42);
-    --mauve:#8b5d7d;
-    --serif:"EB Garamond",Georgia,serif;
-    --display:"Bodoni Moda",Georgia,serif;
-    --mono:"IBM Plex Mono",ui-monospace,monospace;
-    --r:5px;
+    --page:#ffe9f2;
+    --page-2:#ffd7e7;
+    --paper:#fffcf8;
+    --pink:#ff5fa2;
+    --pink-deep:#cf2668;
+    --pink-soft:#ffd3e3;
+    --lilac:#cbadea;
+    --sky:#bfe6f4;
+    --ink:#21101a;
+    --ink-2:#6b4f5e;
+    --rule:#e6bccd;
+    --display:"Cherry Bomb One","DM Sans",system-ui,sans-serif;
+    --mono:"Space Mono",ui-monospace,monospace;
+    --sans:"DM Sans",system-ui,sans-serif;
+    --hard:4px 4px 0 var(--ink);
   }
 
   *{box-sizing:border-box}
   [hidden]{display:none!important}
+  html{-webkit-text-size-adjust:100%}
   body{
-    margin:0;min-height:100vh;padding:44px 18px 80px;
-    font-family:var(--serif);font-size:17px;line-height:1.55;color:var(--blush-2);
-    background:
-      radial-gradient(115% 65% at 50% -16%, #653050 0%, #3b1730 40%, #1a0b14 80%),
-      radial-gradient(60% 45% at 85% 6%, rgba(211,160,154,.16), transparent 62%),
-      var(--plum);
-    background-attachment:fixed;
+    margin:0;min-height:100vh;
+    font-family:var(--sans);font-size:15.5px;line-height:1.55;
+    color:var(--ink);background:var(--page);
     -webkit-font-smoothing:antialiased;
   }
-  body::before{
-    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
-    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='.24'/></svg>");
-    opacity:.55;mix-blend-mode:overlay;
-  }
-  .wrap{max-width:1000px;margin:0 auto;position:relative;z-index:1}
+  .page{max-width:1120px;margin:0 auto;padding:0 20px 70px}
+  .win,.tab,.btn,select,input,.plaque{scroll-margin-top:18px}
 
-  /* ---------------- masthead ---------------- */
-  .masthead{text-align:center;margin-bottom:38px;animation:rise .85s cubic-bezier(.2,.85,.25,1) both}
-  .kicker{
-    font-family:var(--mono);font-size:10px;letter-spacing:.42em;text-transform:uppercase;
-    color:var(--rose-gold);opacity:.8;margin:0 0 16px;
+  /* ---------- ribbon ---------- */
+  .ticker{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:6px 20px;
+    padding:8px 16px;background:var(--ink);color:var(--page-2);
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
   }
-  h1{
-    font-family:var(--display);font-weight:900;font-optical-sizing:auto;
-    font-size:clamp(30px,7.6vw,64px);line-height:1.04;letter-spacing:.01em;
-    margin:0;
-    background:linear-gradient(176deg,#fff8f6 2%,#f9d9dd 30%,#dd9fb0 62%,#a8677f 100%);
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    filter:drop-shadow(0 3px 0 rgba(26,11,20,.55)) drop-shadow(0 0 28px rgba(232,160,180,.28));
+  .ticker span{display:inline-flex;align-items:center;gap:8px}
+  .ticker span::before{content:"✦";color:var(--pink);font-size:8px}
+  .ticker b{font-weight:700;color:#fff}
+  .checker{
+    height:9px;
+    background-color:var(--pink);
+    background-image:
+      linear-gradient(45deg,var(--ink) 25%,transparent 25%,transparent 75%,var(--ink) 75%),
+      linear-gradient(45deg,var(--ink) 25%,transparent 25%,transparent 75%,var(--ink) 75%);
+    background-size:9px 9px;background-position:0 0,4.5px 4.5px;
   }
-  .lede{
-    font-style:italic;font-size:17.5px;color:rgba(251,233,238,.66);
-    max-width:40ch;margin:16px auto 0;
-  }
-  .flourish{display:flex;align-items:center;justify-content:center;gap:14px;margin:22px 0 0;color:var(--rose-gold)}
-  .flourish span{font-size:14px;opacity:.9}
-  .flourish i{display:block;height:1px;width:84px;background:linear-gradient(90deg,transparent,var(--rg-dim),transparent)}
 
-  .account{display:flex;align-items:center;justify-content:center;gap:11px;flex-wrap:wrap;margin-top:24px}
+  /* ---------- masthead ---------- */
+  .masthead{padding:32px 0 0}
+  .mast-row{display:flex;align-items:flex-start;justify-content:space-between;gap:26px;flex-wrap:wrap}
+  .wordmark{
+    font-family:var(--display);font-weight:400;
+    font-size:clamp(40px,7.6vw,66px);line-height:.9;letter-spacing:-.005em;
+    margin:0;color:var(--pink);
+    text-shadow:2px 2px 0 var(--paper),6px 6px 0 var(--ink);
+  }
+  .brand-note{
+    margin:18px 0 0;max-width:44ch;color:var(--ink-2);font-size:14px;line-height:1.5;
+  }
+  .account{
+    display:flex;align-items:center;gap:9px;flex-wrap:wrap;
+    border:1.5px solid var(--ink);background:var(--paper);
+    padding:8px 10px;box-shadow:3px 3px 0 var(--ink);
+  }
+  .dot{width:8px;height:8px;border-radius:50%;background:#c3a3b3;display:inline-block;flex:none}
+  .dot.live{background:#39a06a;box-shadow:0 0 0 2px rgba(57,160,106,.22)}
   .account-note{
-    font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
-    color:rgba(251,233,238,.55);
+    font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);
   }
-  .account-note b{color:var(--rose-gold-hi);font-weight:500;letter-spacing:.1em}
-  .dot{width:6px;height:6px;border-radius:50%;display:inline-block;background:var(--rose-gold);opacity:.5}
-  .dot.live{background:#8fd06a;opacity:.95;box-shadow:0 0 9px rgba(143,208,106,.85)}
+  .account-note b{color:var(--ink);font-weight:700}
 
   .btn{
-    font-family:var(--mono);font-weight:500;font-size:9.5px;letter-spacing:.2em;
-    text-transform:uppercase;cursor:pointer;border-radius:var(--r);
-    padding:10px 17px;transition:all .18s ease;
+    font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+    cursor:pointer;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);
+    padding:7px 12px;transition:transform .12s,box-shadow .12s,background .12s;
   }
-  .btn-ghost{color:var(--rose-gold-hi);background:transparent;border:1px solid var(--rg-dim)}
-  .btn-ghost:hover{background:rgba(211,160,154,.14);border-color:var(--rose-gold);color:#fff}
+  .btn:hover{background:var(--pink-soft);box-shadow:2px 2px 0 var(--ink);transform:translate(-1px,-1px)}
+  .btn:active{transform:translate(1px,1px);box-shadow:none}
   .btn-primary{
-    width:100%;padding:14px 18px;margin-top:22px;
-    color:var(--rose-gold-hi);border:1px solid var(--rose-gold);
-    background:linear-gradient(180deg,#3f1a30,#1d0d17);
-    box-shadow:inset 0 0 0 1px rgba(243,211,200,.14),0 8px 22px -12px #000;
+    display:block;width:100%;margin-top:6px;padding:13px 16px;
+    background:var(--pink);color:var(--ink);border:2px solid var(--ink);
+    box-shadow:var(--hard);font-size:11px;
   }
-  .btn-primary:hover{
-    background:linear-gradient(180deg,#eec6c4,#c98d94);color:#2a1020;border-color:#fff2ee;
-    box-shadow:0 0 24px rgba(232,160,180,.35);
-  }
-  .btn-primary:active{transform:translateY(1px)}
-  .btn-primary:disabled{opacity:.6;cursor:progress}
+  .btn-primary:hover{background:#ff76b0;box-shadow:5px 5px 0 var(--ink);transform:translate(-1px,-1px)}
+  .btn-primary:active{transform:translate(4px,4px);box-shadow:none}
+  .btn-primary:disabled{opacity:.6;cursor:progress;transform:none;box-shadow:var(--hard)}
 
-  /* ---------------- panels ---------------- */
-  .grid{display:grid;grid-template-columns:1.32fr 1fr;gap:22px;align-items:start}
-  @media (max-width:860px){ .grid{grid-template-columns:1fr} }
-
-  .panel{
-    position:relative;color:var(--ink);border-radius:var(--r);padding:28px 26px 26px;
-    background:
-      radial-gradient(120% 90% at 25% -8%, #fffafc 0%, #fbe9ef 44%, #f2d5de 100%);
-    border:1px solid rgba(211,160,154,.62);
-    box-shadow:
-      0 0 0 1px rgba(40,12,28,.5),
-      0 26px 52px -26px #000,
-      inset 0 0 70px rgba(178,120,140,.2);
-    transition:box-shadow .4s ease;
+  .tabs{display:flex;gap:7px;flex-wrap:wrap;margin:30px 0 16px}
+  .tab{
+    font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    text-decoration:none;color:var(--ink);background:var(--paper);
+    border:1.5px solid var(--ink);padding:8px 13px;box-shadow:3px 3px 0 var(--ink);
+    transition:transform .12s,box-shadow .12s,background .12s;
   }
-  .panel.flash{box-shadow:0 0 0 1px rgba(40,12,28,.5),0 0 0 3px rgba(232,160,180,.55),0 26px 52px -26px #000,inset 0 0 70px rgba(178,120,140,.2)}
-  .panel::after{
-    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='180' height='180' filter='url(%23p)' opacity='.3'/></svg>");
-    opacity:.5;mix-blend-mode:multiply;
-  }
-  .panel > *{position:relative;z-index:1}
+  .tab:hover{background:var(--sky);transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .tab:active{transform:translate(3px,3px);box-shadow:none}
+  .tab.here{background:var(--ink);color:var(--page-2)}
 
-  .corner{position:absolute;width:15px;height:15px;border:1.4px solid var(--rose-gold);opacity:.9;pointer-events:none;z-index:2}
-  .corner.tl{top:7px;left:7px;border-right:0;border-bottom:0;border-top-left-radius:4px}
-  .corner.tr{top:7px;right:7px;border-left:0;border-bottom:0;border-top-right-radius:4px}
-  .corner.bl{bottom:7px;left:7px;border-right:0;border-top:0;border-bottom-left-radius:4px}
-  .corner.br{bottom:7px;right:7px;border-left:0;border-top:0;border-bottom-right-radius:4px}
-
-  .panel-title{
-    font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:.1em;
-    text-transform:uppercase;color:#6d2e45;margin:0 0 5px;text-align:center;
+  /* ---------- windows ---------- */
+  .desk{display:grid;grid-template-columns:minmax(0,1.16fr) minmax(0,.84fr);gap:24px;align-items:start}
+  .win{background:var(--paper);border:2px solid var(--ink);box-shadow:var(--hard)}
+  .win.flash{box-shadow:var(--hard),0 0 0 3px var(--pink)}
+  .win-bar{
+    display:flex;align-items:center;gap:10px;
+    padding:8px 10px;background:var(--pink);border-bottom:2px solid var(--ink);
   }
-  .panel-sub{
-    text-align:center;font-family:var(--mono);font-size:9px;letter-spacing:.2em;
-    text-transform:uppercase;color:rgba(109,46,69,.55);margin:0 0 20px;
+  .win-title{
+    flex:1;min-width:0;margin:0;
+    font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   }
-  .hr{display:flex;align-items:center;gap:10px;margin:0 0 22px;color:rgba(184,81,111,.7)}
-  .hr i{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(184,81,111,.45),transparent)}
-  .hr span{font-size:11px;line-height:1}
+  .win-btns{display:flex;gap:4px;flex:none}
+  .win-btns i{width:11px;height:11px;border:1.5px solid var(--ink);background:var(--paper);display:block}
+  .win-btns i:last-child{background:var(--ink)}
+  .win-body{padding:18px 18px 20px}
+  .win-sub{margin:-2px 0 18px;font-size:12.5px;color:var(--ink-2)}
 
-  /* ---------------- form ---------------- */
-  .q{margin-bottom:19px}
-  .q:last-of-type{margin-bottom:0}
+  .gpa-win{position:sticky;top:16px}
+  .gpa-win .win-bar{background:var(--lilac)}
+
+  /* ---------- fields ---------- */
+  .q{margin:0 0 16px}
+  .q:last-of-type{margin-bottom:14px}
   .q-label{
-    display:flex;align-items:baseline;gap:9px;margin-bottom:8px;
-    font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;
-    text-transform:uppercase;color:#8a4a63;font-weight:500;
+    display:flex;align-items:baseline;gap:8px;margin:0 0 7px;
+    font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--ink);
   }
-  .num{color:var(--rose);font-weight:500}
+  .num{color:var(--pink-deep)}
   .opt{
-    letter-spacing:.06em;text-transform:none;font-size:10.5px;font-style:italic;
-    font-family:var(--serif);color:rgba(138,74,99,.62);
+    font-family:var(--sans);font-size:11.5px;font-weight:400;letter-spacing:0;text-transform:none;
+    font-style:italic;color:var(--ink-2);
   }
 
   input[type=text],input[type=password],input[type=number],select{
-    width:100%;padding:11px 13px;font-size:16px;font-family:var(--serif);
-    color:var(--ink);background:rgba(255,253,253,.72);
-    border:1px solid rgba(138,74,99,.28);border-radius:4px;
-    transition:border-color .15s,box-shadow .15s,background .15s;
+    width:100%;padding:10px 11px;font-family:var(--sans);font-size:15px;color:var(--ink);
+    background:#fff;border:1.5px solid var(--ink);
   }
-  input::placeholder{color:rgba(138,74,99,.45);font-style:italic}
+  input::placeholder{color:#a98a99;font-style:italic}
   select{
-    appearance:none;padding-right:36px;cursor:pointer;
-    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'><path d='M1 1l4.5 4.5L10 1' fill='none' stroke='%23b8516f' stroke-width='1.5' stroke-linecap='round'/></svg>");
-    background-repeat:no-repeat;background-position:right 13px center;
+    appearance:none;padding-right:32px;cursor:pointer;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' fill='none' stroke='%2321101a' stroke-width='1.6'/></svg>");
+    background-repeat:no-repeat;background-position:right 11px center;
   }
-  input:focus,select:focus{
-    outline:none;border-color:var(--rose);background:#fffcfd;
-    box-shadow:0 0 0 3px rgba(184,81,111,.18);
+  input:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible{
+    outline:2px solid var(--pink-deep);outline-offset:2px;
   }
+  input:focus,select:focus{box-shadow:3px 3px 0 var(--pink)}
   input[type=number]{appearance:textfield;-moz-appearance:textfield}
   input[type=number]::-webkit-outer-spin-button,
   input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 
   fieldset{border:0;margin:0;padding:0;min-width:0}
-  legend{padding:0;margin-bottom:8px}
+  legend{padding:0}
 
-  .tiers{display:flex;flex-direction:column;gap:9px}
+  .tiers{border:1.5px solid var(--ink)}
   .tier{
-    display:flex;gap:12px;align-items:flex-start;cursor:pointer;
-    padding:12px 14px;border-radius:4px;
-    border:1px solid rgba(138,74,99,.22);
-    background:rgba(255,253,253,.5);
-    transition:background .16s,border-color .16s,box-shadow .16s;
+    display:flex;gap:10px;align-items:flex-start;cursor:pointer;
+    padding:9px 11px;border-bottom:1px solid var(--rule);background:var(--paper);
+    transition:background .12s;
   }
-  .tier:hover{background:rgba(255,253,253,.85);border-color:rgba(184,81,111,.42)}
+  .tier:last-child{border-bottom:0}
+  .tier:hover{background:var(--pink-soft)}
   .tier input{
-    appearance:none;flex:none;width:16px;height:16px;margin:4px 0 0;
-    border-radius:50%;border:1.4px solid #b8849a;background:transparent;
-    transition:border-width .12s,border-color .12s;
+    appearance:none;flex:none;width:13px;height:13px;margin:3px 0 0;
+    border:1.5px solid var(--ink);background:var(--paper);
   }
-  .tier input:checked{border:4.5px solid var(--rose)}
-  .tier input:focus-visible{outline:2px solid var(--rose);outline-offset:3px}
+  .tier input:checked{background:var(--pink);box-shadow:inset 0 0 0 2.5px var(--paper)}
   .tier-body{min-width:0}
   .tier-name{
-    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
-    font-family:var(--display);font-weight:700;font-size:12.5px;letter-spacing:.09em;
-    text-transform:uppercase;color:#5d2a3d;
+    display:flex;align-items:center;gap:7px;flex-wrap:wrap;
+    font-size:14px;font-weight:700;
   }
-  .pill{
-    font-family:var(--mono);font-size:8.5px;font-weight:500;letter-spacing:.15em;
-    padding:2px 6px;border-radius:2px;text-transform:uppercase;
-  }
-  .pill.t3{background:rgba(184,81,111,.15);color:var(--rose-deep)}
-  .pill.t2{background:rgba(139,93,125,.16);color:#6f4560}
-  .pill.t1{background:rgba(138,107,116,.16);color:#7a5a64}
-  .tier-desc{display:block;font-size:13.5px;line-height:1.35;color:#8a6273;margin-top:3px}
-  .tier:has(input:checked){
-    background:linear-gradient(180deg,#43203a,#240f1d);
-    border-color:var(--rose-gold);
-    box-shadow:0 8px 20px -12px #000,inset 0 0 24px rgba(211,160,154,.14);
-  }
-  .tier:has(input:checked) .tier-name{color:var(--rose-gold-hi)}
-  .tier:has(input:checked) .tier-desc{color:rgba(251,233,238,.62)}
-  .tier:has(input:checked) .tier input{border-color:var(--rose-gold-hi)}
-  .tier:has(input:checked) .pill{background:rgba(243,211,200,.16);color:var(--rose-gold-hi)}
+  .tier-desc{display:block;font-size:12.5px;line-height:1.4;color:var(--ink-2);margin-top:2px}
+  .tier:has(input:checked){background:var(--ink)}
+  .tier:has(input:checked) .tier-name{color:var(--paper)}
+  .tier:has(input:checked) .tier-desc{color:#cbb3c0}
 
-  /* compact chip pickers (status / semester) */
-  .chips{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-  .chips.three{grid-template-columns:1fr 1fr 1fr}
+  .pill{
+    font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    padding:1px 4px;border:1px solid currentColor;
+  }
+  .pill.t3{color:var(--pink-deep)}
+  .pill.t2{color:#7a4f9a}
+  .pill.t1{color:#4d6b78}
+  .tier:has(input:checked) .pill{color:var(--page-2);border-color:#8f6c80}
+
+  .chips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
   .chip{cursor:pointer;position:relative;display:block}
   .chip input{
-    position:absolute;inset:0;width:100%;height:100%;margin:0;padding:0;
-    opacity:0;appearance:none;border:0;cursor:pointer;z-index:1;
+    position:absolute;inset:0;width:100%;height:100%;margin:0;padding:0;opacity:0;cursor:pointer;z-index:1;
+    appearance:none;border:0;
   }
   .chip span{
-    display:flex;align-items:center;justify-content:center;text-align:center;
-    padding:11px 8px;border-radius:4px;font-size:13.5px;line-height:1.25;
-    border:1px solid rgba(138,74,99,.22);background:rgba(255,253,253,.5);
-    color:#7b5468;transition:all .16s;
+    display:block;text-align:center;padding:9px 6px;
+    border:1.5px solid var(--ink);background:var(--paper);
+    font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    transition:background .12s,color .12s;
   }
-  .chip:hover span{background:rgba(255,253,253,.85);border-color:rgba(184,81,111,.42)}
-  .chip input:checked+span{
-    background:linear-gradient(180deg,#43203a,#240f1d);color:var(--rose-gold-hi);
-    border-color:var(--rose-gold);box-shadow:0 6px 16px -12px #000;
-  }
-  .chip input:focus-visible+span{outline:2px solid var(--rose);outline-offset:2px}
+  .chip:hover span{background:var(--pink-soft)}
+  .chip input:checked+span{background:var(--ink);color:var(--page-2)}
 
-  .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  @media (max-width:520px){ .row2{grid-template-columns:1fr} }
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 
-  .gfields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .gfields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .gfields .wide{grid-column:1/-1}
-  @media (max-width:440px){ .gfields{grid-template-columns:1fr} }
-  .hint{
-    margin:10px 0 0;font-size:12.5px;font-style:italic;line-height:1.4;
-    color:rgba(138,74,99,.75);
-  }
+  .hint{margin:9px 0 0;font-size:12px;line-height:1.45;color:var(--ink-2)}
   .preview{
-    margin:10px 0 0;padding:8px 11px;border-radius:3px;
-    font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;
-    background:rgba(184,81,111,.09);color:var(--rose-deep);
-    border-left:2px solid var(--rose);
+    margin:9px 0 0;padding:7px 9px;font-family:var(--mono);font-size:10px;line-height:1.5;
+    background:#fff2f7;border:1.5px dashed var(--pink-deep);color:#8a1f4c;
   }
 
   .error{
-    margin-top:16px;font-size:14px;font-style:italic;color:#8c2438;
-    background:rgba(184,81,111,.1);border-left:2px solid var(--rose);
-    padding:9px 12px;border-radius:0 3px 3px 0;
+    margin:0 0 14px;padding:8px 10px;font-size:12.5px;
+    background:#fff0f5;border:1.5px solid var(--pink-deep);color:#9c1442;
   }
   .editing-bar{
     display:flex;align-items:center;justify-content:space-between;gap:10px;
-    margin:0 0 18px;padding:9px 12px;border-radius:3px;
-    background:linear-gradient(180deg,#43203a,#240f1d);color:var(--rose-gold-hi);
-    font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+    margin:0 0 16px;padding:8px 10px;
+    background:var(--ink);color:var(--page-2);
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
   }
   .editing-bar button{
-    background:none;border:1px solid rgba(243,211,200,.4);border-radius:3px;
-    color:var(--rose-gold-hi);font-family:var(--mono);font-size:8.5px;
-    letter-spacing:.14em;text-transform:uppercase;padding:5px 9px;cursor:pointer;
+    font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    background:transparent;color:var(--page-2);border:1.5px solid #7d5e6e;padding:3px 8px;cursor:pointer;
   }
-  .editing-bar button:hover{background:rgba(243,211,200,.15)}
+  .editing-bar button:hover{background:var(--pink);color:var(--ink);border-color:var(--pink)}
 
-  /* ---------------- ledger ---------------- */
+  /* ---------- ledger ---------- */
   .plaque{
-    position:relative;text-align:center;padding:20px 16px 18px;margin-bottom:20px;
-    border-radius:4px;border:1px solid rgba(211,160,154,.55);
-    background:radial-gradient(130% 130% at 50% -25%, #4d2339 0%, #2a1120 55%, #170a12 100%);
-    box-shadow:inset 0 0 46px rgba(0,0,0,.85),inset 0 1px 0 rgba(243,211,200,.18),0 14px 28px -20px #000;
+    background:var(--ink);color:var(--paper);
+    padding:14px 14px 12px;margin:0 0 12px;
   }
   .plaque-label{
-    font-family:var(--mono);font-size:8.5px;letter-spacing:.3em;text-transform:uppercase;
-    color:rgba(243,211,200,.66);margin-bottom:7px;
+    font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--lilac);
   }
   .gpa{
-    font-family:var(--display);font-weight:900;line-height:.95;letter-spacing:0;
-    font-size:clamp(50px,10vw,68px);font-variant-numeric:tabular-nums;
-    background:linear-gradient(178deg,#fff9fa,#f7cdd6 42%,#c98d9f);
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    filter:drop-shadow(0 0 20px rgba(240,180,195,.4));
+    font-family:var(--mono);font-weight:700;line-height:1;letter-spacing:-.03em;
+    font-size:clamp(46px,8vw,62px);font-variant-numeric:tabular-nums;
+    color:var(--pink);text-shadow:3px 3px 0 var(--paper);
+    margin:6px 0 0;
   }
   .gpa.empty{
-    background:none;-webkit-text-fill-color:rgba(243,211,200,.5);
-    filter:none;color:rgba(243,211,200,.5);
-    font-size:clamp(34px,6vw,44px);line-height:1.2;
+    font-size:clamp(26px,5vw,34px);color:#f0c2d5;text-shadow:none;line-height:1.2;
   }
-  .gpa.bump{animation:bump .5s cubic-bezier(.2,.9,.3,1)}
+  .gpa.bump{animation:bump .45s cubic-bezier(.2,.9,.3,1)}
   .gpa-meta{
-    font-family:var(--mono);font-size:9px;letter-spacing:.1em;line-height:1.9;
-    color:rgba(251,233,238,.55);margin-top:10px;text-transform:uppercase;
+    margin-top:9px;font-family:var(--mono);font-size:8.5px;line-height:1.85;
+    letter-spacing:.06em;text-transform:uppercase;color:#c9aebb;
   }
-  .gpa-meta b{color:var(--rose-gold-hi);font-weight:500}
+  .gpa-meta b{color:#fff;font-weight:700}
 
   .save-state{
-    font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;
-    text-align:center;color:rgba(138,74,99,.6);margin:-6px 0 14px;transition:color .2s;
+    margin:0 0 12px;font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-2);
   }
-  .save-state.ok{color:#4f7c3e}
-  .save-state.bad{color:#a5304a}
+  .save-state.ok{color:#2c7a55}
+  .save-state.bad{color:#b01847}
 
-  .filter-row{
-    display:flex;align-items:center;gap:9px;margin-bottom:12px;
-  }
+  .filter-row{display:flex;align-items:center;gap:8px;margin:0 0 10px}
   .filter-row label{
-    flex:none;font-family:var(--mono);font-size:9px;letter-spacing:.16em;
-    text-transform:uppercase;color:#8a4a63;
+    flex:none;font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;
   }
-  .filter-row select{
-    padding:7px 30px 7px 10px;font-size:14px;background-position:right 9px center;
-  }
+  .filter-row select{padding:6px 28px 6px 8px;font-size:13px;background-position:right 8px center}
 
-  .list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
-  .course{
-    display:flex;align-items:center;gap:8px;padding:9px 11px;
-    border:1px solid rgba(138,74,99,.2);border-radius:4px;
-    background:rgba(255,253,253,.42);
-    animation:rise .35s ease both;
+  .list-head{
+    display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;padding-right:58px;
+    font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);
+    border-bottom:1.5px solid var(--ink);padding-bottom:4px;
   }
-  .course .info{flex:1;min-width:0}
+  .list{list-style:none;margin:0;padding:0}
+  .course{
+    display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;gap:8px;align-items:center;
+    padding:8px 0;border-bottom:1px dotted var(--rule);
+    animation:rise .28s ease both;
+  }
+  .course .info{min-width:0}
   .course .name{
-    font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   }
   .course .meta{
-    display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:3px;
-    font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;
-    text-transform:uppercase;color:rgba(138,74,99,.75);
+    display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:2px;
+    font-family:var(--mono);font-size:8px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);
   }
   .chip-mini{
-    font-family:var(--mono);font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;
-    padding:1px 5px;border-radius:2px;background:rgba(184,81,111,.13);color:var(--rose-deep);
+    font-family:var(--mono);font-size:7.5px;letter-spacing:.08em;text-transform:uppercase;
+    background:var(--pink-soft);color:#8a1f4c;padding:0 3px;
   }
   .course .pts{
-    flex:none;text-align:right;font-family:var(--mono);font-size:13px;font-weight:500;
-    color:#4a2434;font-variant-numeric:tabular-nums;
+    min-width:38px;
+    font-family:var(--mono);font-size:13px;font-weight:700;text-align:right;
+    font-variant-numeric:tabular-nums;line-height:1.15;
   }
-  .course .pts small{display:block;font-size:7px;letter-spacing:.16em;color:rgba(138,74,99,.6)}
+  .course .pts small{display:block;font-size:6.5px;font-weight:400;letter-spacing:.12em;color:var(--ink-2)}
   .icon-btn{
-    flex:none;width:24px;height:24px;display:grid;place-items:center;
-    border:1px solid rgba(138,74,99,.2);border-radius:3px;background:transparent;
-    color:rgba(138,74,99,.65);font-size:13px;line-height:1;cursor:pointer;
-    transition:all .15s;font-family:var(--serif);
+    width:21px;height:21px;display:grid;place-items:center;flex:none;
+    border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);
+    font-family:var(--sans);font-size:12px;line-height:1;cursor:pointer;padding:0;
+    transition:background .12s,color .12s;
   }
-  .icon-btn.edit:hover{color:#fff;background:var(--mauve);border-color:var(--mauve)}
-  .icon-btn.del:hover{color:#fff;background:var(--rose-deep);border-color:var(--rose-deep)}
+  .icon-btn.edit:hover{background:var(--lilac)}
+  .icon-btn.del:hover{background:var(--pink-deep);color:var(--paper);border-color:var(--pink-deep)}
 
   .empty-note{
-    text-align:center;font-style:italic;font-size:14.5px;
-    color:rgba(138,74,99,.7);padding:22px 10px;margin:0;
+    margin:0;padding:18px 2px 16px;font-size:13px;line-height:1.5;color:var(--ink-2);max-width:34ch;
   }
 
-  .tools{display:flex;gap:8px;padding-top:16px;margin-top:16px;border-top:1px solid rgba(138,74,99,.16)}
+  .tools{display:flex;gap:8px;padding-top:14px;margin-top:14px;border-top:1.5px solid var(--ink)}
   .link-btn{
-    flex:1;padding:9px;font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;
-    text-transform:uppercase;cursor:pointer;color:#8a4a63;background:transparent;
-    border:1px solid rgba(138,74,99,.24);border-radius:3px;transition:all .15s;
+    flex:1;padding:8px;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;cursor:pointer;color:var(--ink);background:var(--paper);
+    border:1.5px solid var(--ink);transition:background .12s,color .12s;
   }
-  .link-btn:hover:not(:disabled){background:linear-gradient(180deg,#43203a,#240f1d);color:var(--rose-gold-hi);border-color:var(--rose-gold)}
+  .link-btn:hover:not(:disabled){background:var(--ink);color:var(--page-2)}
   .link-btn:disabled{opacity:.4;cursor:not-allowed}
 
-  /* ---------------- scale ---------------- */
-  details.scale{
-    margin-top:22px;border-radius:var(--r);color:var(--ink);position:relative;
-    background:radial-gradient(120% 90% at 25% -8%,#fff9fb 0%,#fae6ec 45%,#f0d2db 100%);
-    border:1px solid rgba(211,160,154,.55);
-    box-shadow:0 0 0 1px rgba(40,12,28,.5),0 22px 44px -28px #000,inset 0 0 60px rgba(178,120,140,.18);
-    animation:rise .85s .28s cubic-bezier(.2,.85,.25,1) both;
+  /* ---------- scale ---------- */
+  .scale{margin-top:24px}
+  .scale .win-bar{background:var(--ink);border-bottom:2px solid var(--ink);cursor:pointer}
+  .scale .win-title{color:var(--page-2)}
+  .scale summary{list-style:none}
+  .scale summary::-webkit-details-marker{display:none}
+  .scale summary::after{
+    content:"＋";font-family:var(--mono);font-size:13px;color:var(--pink);flex:none;
   }
-  details.scale summary{
-    list-style:none;cursor:pointer;padding:18px 26px;
-    display:flex;align-items:center;justify-content:space-between;gap:12px;
-    font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.14em;
-    text-transform:uppercase;color:#6d2e45;
-  }
-  details.scale summary::-webkit-details-marker{display:none}
-  details.scale summary::after{content:"❀";font-size:11px;color:var(--rose);transition:transform .3s}
-  details.scale[open] summary::after{transform:rotate(180deg)}
-  .scale-body{padding:0 26px 26px;border-top:1px solid rgba(138,74,99,.14)}
-  .scale-body p{font-size:14px;font-style:italic;color:#8a6273;margin:16px 0;max-width:70ch}
-  table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px;font-variant-numeric:tabular-nums}
-  th,td{padding:5px 8px;text-align:right;border-bottom:1px solid rgba(138,74,99,.11)}
-  th:first-child,td:first-child{text-align:left;font-weight:500}
+  .scale[open] summary::after{content:"−"}
+  .scale-body{padding:18px 18px 20px}
+  .scale-body p{margin:0 0 12px;font-size:13.5px;line-height:1.6;color:#4b3242;max-width:74ch}
+  .scale-body p:last-child{margin-bottom:0}
+  .scale-body b{font-weight:700}
+  table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:11.5px;font-variant-numeric:tabular-nums;margin:4px 0 16px}
+  th,td{padding:4px 7px;text-align:right;border-bottom:1px dotted var(--rule)}
+  th:first-child,td:first-child{text-align:left;font-weight:700}
   thead th{
-    font-size:8px;letter-spacing:.13em;text-transform:uppercase;
-    color:#8a4a63;border-bottom:1px solid rgba(138,74,99,.3);
+    font-size:8px;letter-spacing:.1em;text-transform:uppercase;
+    border-bottom:1.5px solid var(--ink);padding-bottom:6px;
   }
-  th.t3,td.t3h{color:var(--rose-deep)}
-  th.t2,td.t2h{color:#6f4560}
-  th.t1,td.t1h{color:#7a5a64}
-  tbody tr:hover{background:rgba(255,253,253,.5)}
+  th.t3,td.t3h{color:var(--pink-deep)}
+  th.t2,td.t2h{color:#7a4f9a}
+  th.t1,td.t1h{color:#4d6b78}
+  tbody tr:hover{background:var(--pink-soft)}
 
   .foot{
-    text-align:center;font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;
-    text-transform:uppercase;color:rgba(211,160,154,.4);margin-top:34px;
+    margin:30px 0 0;padding-top:16px;border-top:1.5px solid var(--ink);
+    font-family:var(--mono);font-size:9px;line-height:1.9;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink-2);
   }
 
-  /* ---------------- modal ---------------- */
+  /* ---------- modal ---------- */
   .modal{
     position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:20px;
-    background:radial-gradient(80% 60% at 50% 0%,rgba(90,45,70,.55),rgba(12,5,10,.92));
-    backdrop-filter:blur(4px);animation:fade .25s ease both;
-    overflow:auto;
+    background:rgba(33,16,26,.62);overflow:auto;
+    animation:fade .18s ease both;
   }
   .modal[hidden]{display:none}
-  .modal-card{width:100%;max-width:400px;padding:30px 28px;animation:rise .45s cubic-bezier(.2,.85,.25,1) both}
+  .modal-card{width:100%;max-width:380px;animation:rise .3s ease both;box-shadow:7px 7px 0 var(--pink)}
+  .modal-card .win-bar{background:var(--pink)}
   .modal-x{
-    position:absolute;top:10px;right:12px;z-index:3;background:none;border:0;
-    font-size:20px;line-height:1;cursor:pointer;color:rgba(138,74,99,.6);
-    padding:6px;font-family:var(--serif);
+    flex:none;width:19px;height:19px;display:grid;place-items:center;padding:0;
+    background:var(--paper);border:1.5px solid var(--ink);cursor:pointer;
+    font-family:var(--sans);font-size:13px;line-height:1;color:var(--ink);
   }
-  .modal-x:hover{color:var(--rose-deep)}
-  .modal-title{
-    font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:.08em;
-    text-transform:uppercase;text-align:center;color:#6d2e45;margin:0 0 18px;
-  }
-  .seg{
-    display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(138,74,99,.26);
-    border-radius:4px;overflow:hidden;margin-bottom:22px;
-  }
+  .modal-x:hover{background:var(--ink);color:var(--paper)}
+
+  .seg{display:grid;grid-template-columns:1fr 1fr;border:1.5px solid var(--ink);margin:0 0 18px}
   .seg button{
-    padding:10px 6px;font-family:var(--mono);font-size:8.5px;letter-spacing:.13em;
-    text-transform:uppercase;cursor:pointer;background:transparent;border:0;
-    color:#8a6273;transition:all .16s;
+    padding:9px 6px;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;
+    text-transform:uppercase;cursor:pointer;background:var(--paper);border:0;color:var(--ink-2);
+    transition:background .12s,color .12s;
   }
-  .seg button+button{border-left:1px solid rgba(138,74,99,.26)}
-  .seg button.on{background:linear-gradient(180deg,#43203a,#240f1d);color:var(--rose-gold-hi)}
-  .auth-field{margin-bottom:15px}
+  .seg button+button{border-left:1.5px solid var(--ink)}
+  .seg button:hover{background:var(--pink-soft)}
+  .seg button.on{background:var(--ink);color:var(--page-2)}
+  .auth-field{margin-bottom:13px}
   .auth-field label{
-    display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.18em;
-    text-transform:uppercase;color:#8a4a63;margin-bottom:7px;
+    display:block;font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;margin-bottom:5px;
   }
   .auth-error{
-    font-size:14px;font-style:italic;color:#8c2438;background:rgba(184,81,111,.1);
-    border-left:2px solid var(--rose);padding:8px 11px;margin:0 0 4px;
+    margin:0 0 12px;padding:8px 10px;font-size:12.5px;
+    background:#fff0f5;border:1.5px solid var(--pink-deep);color:#9c1442;
   }
-  .auth-fine{text-align:center;font-size:13px;font-style:italic;color:rgba(138,74,99,.72);margin:14px 0 0}
+  .auth-fine{margin:14px 0 0;font-size:12px;line-height:1.5;color:var(--ink-2)}
 
   .toast{
-    position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:60;
-    background:linear-gradient(180deg,#43203a,#1d0d17);color:var(--rose-gold-hi);
-    border:1px solid var(--rose-gold);border-radius:4px;padding:11px 20px;
-    font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
-    box-shadow:0 16px 34px -18px #000;animation:toastIn .3s ease both;
+    position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:60;
+    background:var(--ink);color:var(--page-2);border:1.5px solid var(--pink);
+    padding:9px 16px;font-family:var(--mono);font-size:9.5px;font-weight:700;
+    letter-spacing:.1em;text-transform:uppercase;box-shadow:4px 4px 0 var(--pink-deep);
+    animation:toastIn .2s ease both;
   }
   .toast[hidden]{display:none}
 
-  @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  @keyframes rise{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
   @keyframes fade{from{opacity:0}to{opacity:1}}
-  @keyframes bump{0%{transform:scale(1)}35%{transform:scale(1.07)}100%{transform:scale(1)}}
-  @keyframes toastIn{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}
+  @keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.05)}100%{transform:scale(1)}}
+  @keyframes toastIn{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
 
-  @media (max-width:430px){
-    .kicker{letter-spacing:.26em;font-size:9px}
-    .foot{letter-spacing:.14em;line-height:1.8}
-    .panel{padding:26px 20px 22px}
-    .plaque{padding:18px 12px 16px}
+  @media (max-width:1040px){
+    .desk{grid-template-columns:minmax(0,1.04fr) minmax(0,.96fr);gap:18px}
+    .win-body{padding:16px 15px 18px}
+    .tier-desc{font-size:12px}
   }
-
-  @media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
+  @media (max-width:720px){
+    .desk{grid-template-columns:minmax(0,1fr);gap:22px}
+    .gpa-win{position:static}
+  }
+  @media (max-width:560px){
+    .page{padding:0 14px 56px}
+    .wordmark{font-size:clamp(34px,11vw,46px);text-shadow:2px 2px 0 var(--paper),4px 4px 0 var(--ink)}
+    .mast-row{gap:16px}
+    .win-body,.scale-body{padding:15px 14px 17px}
+    .row2,.gfields{grid-template-columns:1fr}
+    .gpa{font-size:clamp(42px,13vw,54px)}
+    .tabs{gap:5px}
+    .tab{padding:7px 10px;font-size:9px}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="ticker">
+  <span><b>Grade points come from semester grades</b></span>
+  <span>A two-credit course counts twice</span>
+  <span>Below 70 earns nothing</span>
+</div>
+<div class="checker"></div>
 
+<div class="page">
   <header class="masthead">
-    <p class="kicker">Frisco ISD · Weighted Grade Scale</p>
-    <h1>The GPA Grimoire</h1>
-    <p class="lede">Inscribe every course you have conquered, and the ledger shall reckon your weighted standing.</p>
-
-    <div class="flourish"><i></i><span>❀</span><i></i></div>
-
-    <div class="account">
-      <span class="dot" id="accountDot"></span>
-      <span class="account-note" id="accountNote">Guest — this browser only</span>
-      <button type="button" class="btn btn-ghost" id="accountBtn">Sign in</button>
+    <div class="mast-row">
+      <div>
+        <h1 class="wordmark">gpa<br>calculator</h1>
+        <p class="brand-note">A gradebook for Frisco ISD students. Type in your grades; the district's weighted scale does the rest.</p>
+      </div>
+      <div class="account">
+        <span class="dot" id="accountDot"></span>
+        <span class="account-note" id="accountNote">Guest — this browser only</span>
+        <button type="button" class="btn" id="accountBtn">Sign in</button>
+      </div>
     </div>
+
+    <nav class="tabs">
+      <a class="tab here" href="#formPanel">Add a course</a>
+      <a class="tab" href="#ledgerPanel">Your GPA</a>
+      <a class="tab" href="#scale">The scale</a>
+    </nav>
   </header>
 
-  <main class="grid">
+  <main class="desk">
 
     <!-- ================= FORM ================= -->
-    <section class="panel" id="formPanel" style="animation:rise .85s .1s cubic-bezier(.2,.85,.25,1) both">
-      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-      <h2 class="panel-title" id="formTitle">Inscribe a Course</h2>
-      <p class="panel-sub" id="formSub">One course at a time</p>
-      <div class="hr"><i></i><span>✦</span><i></i></div>
-
-      <div class="editing-bar" id="editingBar" hidden>
-        <span>Amending an existing course</span>
-        <button type="button" id="cancelEdit">Cancel</button>
+    <section class="win" id="formPanel">
+      <div class="win-bar">
+        <h2 class="win-title" id="formTitle">Add a course</h2>
+        <span class="win-btns" aria-hidden="true"><i></i><i></i><i></i></span>
       </div>
+      <div class="win-body">
+        <p class="win-sub" id="formSub">One course at a time. You can change any of them later.</p>
 
-      <form id="form" novalidate>
-
-        <div class="q">
-          <label class="q-label" for="cname"><span class="num">I.</span> Course name <span class="opt">(optional)</span></label>
-          <input id="cname" type="text" placeholder="e.g. AP Biology" autocomplete="off" maxlength="60">
+        <div class="editing-bar" id="editingBar" hidden>
+          <span>Editing a saved course</span>
+          <button type="button" id="cancelEdit">Cancel</button>
         </div>
 
-        <fieldset class="q">
-          <legend class="q-label"><span class="num">II.</span> What manner of course is it?</legend>
-          <div class="tiers">
-            <label class="tier">
-              <input type="radio" name="tier" value="3">
-              <span class="tier-body">
-                <span class="tier-name">AP / IB <span class="pill t3">Tier III</span></span>
-                <span class="tier-desc">AP, IB, Computer Science III Advanced, and other designated courses</span>
-              </span>
-            </label>
-            <label class="tier">
-              <input type="radio" name="tier" value="2">
-              <span class="tier-body">
-                <span class="tier-name">Advanced <span class="pill t2">Tier II</span></span>
-                <span class="tier-desc">Advanced, dual credit, PLTW, ISM/ISC, Academic Decathlon, Engineering</span>
-              </span>
-            </label>
-            <label class="tier">
-              <input type="radio" name="tier" value="1">
-              <span class="tier-body">
-                <span class="tier-name">On Level <span class="pill t1">Tier I</span></span>
-                <span class="tier-desc">Standard high school and on-level courses</span>
-              </span>
-            </label>
-          </div>
-        </fieldset>
+        <form id="form" novalidate>
 
-        <div class="row2">
           <div class="q">
-            <label class="q-label" for="year"><span class="num">III.</span> Which year?</label>
-            <select id="year">
-              <option value="7">7th Grade</option>
-              <option value="8">8th Grade</option>
-              <option value="9" selected>9th Grade</option>
-              <option value="10">10th Grade</option>
-              <option value="11">11th Grade</option>
-              <option value="12">12th Grade</option>
-            </select>
+            <label class="q-label" for="cname"><span class="num">01</span> Course name <span class="opt">optional</span></label>
+            <input id="cname" type="text" placeholder="Algebra I" autocomplete="off" maxlength="60">
           </div>
-          <div class="q">
-            <label class="q-label" for="credits"><span class="num">IV.</span> Credits</label>
-            <select id="credits">
-              <option value="1" selected>1 credit</option>
-              <option value="2">2 credits</option>
-            </select>
+
+          <fieldset class="q">
+            <legend class="q-label"><span class="num">02</span> Course type</legend>
+            <div class="tiers">
+              <label class="tier">
+                <input type="radio" name="tier" value="3">
+                <span class="tier-body">
+                  <span class="tier-name">AP or IB <span class="pill t3">Tier III</span></span>
+                  <span class="tier-desc">AP, IB, and Computer Science III Advanced</span>
+                </span>
+              </label>
+              <label class="tier">
+                <input type="radio" name="tier" value="2">
+                <span class="tier-body">
+                  <span class="tier-name">Advanced <span class="pill t2">Tier II</span></span>
+                  <span class="tier-desc">Advanced, dual credit, PLTW, ISM, Academic Decathlon, engineering</span>
+                </span>
+              </label>
+              <label class="tier">
+                <input type="radio" name="tier" value="1">
+                <span class="tier-body">
+                  <span class="tier-name">On level <span class="pill t1">Tier I</span></span>
+                  <span class="tier-desc">Standard courses</span>
+                </span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="row2">
+            <div class="q">
+              <label class="q-label" for="year"><span class="num">03</span> Year</label>
+              <select id="year">
+                <option value="7">7th grade</option>
+                <option value="8">8th grade</option>
+                <option value="9" selected>9th grade</option>
+                <option value="10">10th grade</option>
+                <option value="11">11th grade</option>
+                <option value="12">12th grade</option>
+              </select>
+            </div>
+            <div class="q">
+              <label class="q-label" for="credits"><span class="num">04</span> Credits</label>
+              <select id="credits">
+                <option value="1" selected>1 credit</option>
+                <option value="2">2 credits</option>
+              </select>
+            </div>
           </div>
-        </div>
 
-        <fieldset class="q">
-          <legend class="q-label"><span class="num">V.</span> Have you finished it, or are you taking it now?</legend>
-          <div class="chips">
-            <label class="chip"><input type="radio" name="status" value="past"><span>Past course</span></label>
-            <label class="chip"><input type="radio" name="status" value="current"><span>Taking it now</span></label>
+          <fieldset class="q">
+            <legend class="q-label"><span class="num">05</span> Finished or in progress?</legend>
+            <div class="chips">
+              <label class="chip"><input type="radio" name="status" value="past"><span>Finished</span></label>
+              <label class="chip"><input type="radio" name="status" value="current"><span>In progress</span></label>
+            </div>
+          </fieldset>
+
+          <div class="q" id="semesterWrap" hidden>
+            <label class="q-label" for="semester">Which semester</label>
+            <div class="chips">
+              <label class="chip"><input type="radio" name="semester" value="1" checked><span>Semester 1</span></label>
+              <label class="chip"><input type="radio" name="semester" value="2"><span>Semester 2</span></label>
+            </div>
           </div>
-        </fieldset>
 
-        <div class="q" id="semesterWrap" hidden>
-          <label class="q-label" for="semester"><span class="num">VI.</span> Which semester are you in?</label>
-          <div class="chips">
-            <label class="chip"><input type="radio" name="semester" value="1" checked><span>1st semester</span></label>
-            <label class="chip"><input type="radio" name="semester" value="2"><span>2nd semester</span></label>
-          </div>
-        </div>
+          <fieldset class="q" id="gradesWrap" hidden>
+            <legend class="q-label">Grades</legend>
+            <div class="gfields" id="gradeFields"></div>
+            <p class="hint" id="gradesHint"></p>
+            <p class="preview" id="avgPreview" hidden></p>
+          </fieldset>
 
-        <fieldset class="q" id="gradesWrap" hidden>
-          <legend class="q-label"><span class="num">VII.</span> Which grades do you have?</legend>
-          <div class="gfields" id="gradeFields"></div>
-          <p class="hint" id="gradesHint"></p>
-          <p class="preview" id="avgPreview" hidden></p>
-        </fieldset>
-
-        <div class="error" id="error" hidden></div>
-        <button type="submit" class="btn btn-primary" id="submitBtn">Inscribe Course</button>
-      </form>
+          <div class="error" id="error" hidden></div>
+          <button type="submit" class="btn btn-primary" id="submitBtn">Add course</button>
+        </form>
+      </div>
     </section>
 
     <!-- ================= LEDGER ================= -->
-    <section class="panel" style="animation:rise .85s .2s cubic-bezier(.2,.85,.25,1) both">
-      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-      <h2 class="panel-title">Your Ledger</h2>
-      <p class="panel-sub">Weighted reckoning</p>
-      <div class="hr"><i></i><span>✦</span><i></i></div>
-
-      <div class="plaque">
-        <div class="plaque-label" id="plaqueLabel">Weighted GPA</div>
-        <div class="gpa empty" id="gpaValue">—</div>
-        <div class="gpa-meta" id="gpaSub">No courses inscribed</div>
+    <section class="win gpa-win" id="ledgerPanel">
+      <div class="win-bar">
+        <h2 class="win-title">Your GPA</h2>
+        <span class="win-btns" aria-hidden="true"><i></i><i></i><i></i></span>
       </div>
+      <div class="win-body">
+        <div class="plaque">
+          <div class="plaque-label" id="plaqueLabel">Weighted GPA</div>
+          <div class="gpa empty" id="gpaValue">—</div>
+          <div class="gpa-meta" id="gpaSub">Add a course to see it</div>
+        </div>
 
-      <p class="save-state" id="saveState">Saved in this browser</p>
+        <p class="save-state" id="saveState">Saved in this browser</p>
 
-      <div class="filter-row" id="filterRow" hidden>
-        <label for="yearFilter">Viewing</label>
-        <select id="yearFilter"></select>
-      </div>
+        <div class="filter-row" id="filterRow" hidden>
+          <label for="yearFilter">Showing</label>
+          <select id="yearFilter"></select>
+        </div>
 
-      <ul class="list" id="list"></ul>
-      <p class="empty-note" id="emptyNote">The ledger lies empty. Inscribe your first course.</p>
+        <div class="list-head" aria-hidden="true"><span>Course</span><span>Points</span></div>
+        <ul class="list" id="list"></ul>
+        <p class="empty-note" id="emptyNote">Nothing here yet. Add a course and it shows up in this list.</p>
 
-      <div class="tools">
-        <button type="button" class="link-btn" id="clear" disabled>Clear ledger</button>
+        <div class="tools">
+          <button type="button" class="link-btn" id="clear" disabled>Clear all</button>
+        </div>
       </div>
     </section>
 
   </main>
 
-  <details class="scale">
-    <summary>Behold the Grade Scale</summary>
+  <details class="win scale" id="scale">
+    <summary class="win-bar"><span class="win-title">How the scale works</span></summary>
     <div class="scale-body">
-      <p>Grade points are earned by each <b>semester</b> grade — a year-long course is two of them, a one-semester course one — and each semester is worth half of the course's credits. Quarters are averaged into the whole semester grade your report card shows. Any grade beneath a 70 yields no grade points.</p>
+      <p>Grade points are awarded for each <b>semester grade</b>, not for the yearly average. A full-year course has two semester grades; a one-semester course has one. Each semester is worth half of the course's credits, so a two-credit course weighs double.</p>
+      <p>For a course still in progress, the semester grade is the average of its quarters, rounded to a whole number. Anything below 70 earns no grade points.</p>
       <table>
         <thead>
           <tr>
             <th scope="col">Grade</th>
             <th scope="col" class="t3">AP / IB</th>
             <th scope="col" class="t2">Advanced</th>
-            <th scope="col" class="t1">On Level</th>
+            <th scope="col" class="t1">On level</th>
           </tr>
         </thead>
         <tbody id="scaleBody"></tbody>
       </table>
-      <p>For courses earning two credits, the grade is counted twice in the calculation.</p>
+      <p>Numbers in the GPA box are grade points divided by credits, to three decimals.</p>
     </div>
   </details>
 
-  <p class="foot">Frisco ISD Academic Guide &amp; Course Catalog · Classes of 2024 and Beyond</p>
+  <p class="foot">Frisco ISD Academic Guide &amp; Course Catalog · classes of 2024 and later</p>
 </div>
 
 <div class="modal" id="modal" hidden>
-  <div class="panel modal-card" role="dialog" aria-modal="true" aria-labelledby="authTitle">
-    <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-    <button type="button" class="modal-x" id="closeAuth" aria-label="Close">×</button>
-
-    <h2 class="modal-title" id="authTitle">Enter the Hall</h2>
-
-    <div class="seg" role="tablist">
-      <button type="button" data-mode="login" class="on" role="tab">Sign in</button>
-      <button type="button" data-mode="signup" role="tab">Create account</button>
+  <div class="win modal-card" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div class="win-bar">
+      <h2 class="win-title" id="authTitle">Sign in</h2>
+      <button type="button" class="modal-x" id="closeAuth" aria-label="Close">×</button>
     </div>
-
-    <form id="authForm" novalidate>
-      <div class="auth-field">
-        <label for="uName">Username</label>
-        <input id="uName" type="text" autocomplete="username" maxlength="24" placeholder="e.g. valeria">
-      </div>
-      <div class="auth-field">
-        <label for="uPass">Password</label>
-        <input id="uPass" type="password" autocomplete="current-password" maxlength="200" placeholder="At least 8 characters">
-      </div>
-      <div class="auth-field" id="confirmWrap" hidden>
-        <label for="uPass2">Confirm password</label>
-        <input id="uPass2" type="password" autocomplete="new-password" maxlength="200" placeholder="Type it once more">
+    <div class="win-body">
+      <div class="seg" role="tablist">
+        <button type="button" data-mode="login" class="on" role="tab">Sign in</button>
+        <button type="button" data-mode="signup" role="tab">Create account</button>
       </div>
 
-      <p class="auth-error" id="authError" hidden></p>
-      <button type="submit" class="btn btn-primary" id="authSubmit">Sign In</button>
-    </form>
+      <form id="authForm" novalidate>
+        <div class="auth-field">
+          <label for="uName">Username</label>
+          <input id="uName" type="text" autocomplete="username" maxlength="24" placeholder="valeria">
+        </div>
+        <div class="auth-field">
+          <label for="uPass">Password</label>
+          <input id="uPass" type="password" autocomplete="current-password" maxlength="200" placeholder="At least 8 characters">
+        </div>
+        <div class="auth-field" id="confirmWrap" hidden>
+          <label for="uPass2">Confirm password</label>
+          <input id="uPass2" type="password" autocomplete="new-password" maxlength="200" placeholder="Type it again">
+        </div>
 
-    <p class="auth-fine">No email, no verification. A name and a password.</p>
+        <p class="auth-error" id="authError" hidden></p>
+        <button type="submit" class="btn btn-primary" id="authSubmit">Sign in</button>
+      </form>
+
+      <p class="auth-fine">No email and no verification. A username and a password keep your courses on any school computer.</p>
+    </div>
   </div>
 </div>
 
@@ -1038,11 +1016,11 @@
 
       var yearChip = document.createElement("span");
       yearChip.className = "chip-mini";
-      yearChip.textContent = c.year + "th";
+      yearChip.textContent = YEAR_NAMES[c.year] || c.year + "th grade";
 
       var detail = document.createElement("span");
       var earned = courseCredits(c);
-      detail.textContent = "Grade " + formatGrade(avg) + " · " + formatCredits(earned) +
+      detail.textContent = formatGrade(avg) + " avg · " + formatCredits(earned) +
         (earned === 1 ? " credit" : " credits");
 
       metaRow.appendChild(pill);
@@ -1128,7 +1106,7 @@
       gpaValue.classList.add("empty");
       gpaValue.textContent = "—";
       lastGpa = null;
-      gpaSub.textContent = state.courses.length ? "No courses in this year" : "No courses inscribed";
+      gpaSub.textContent = state.courses.length ? "No courses in this year" : "Add a course to see it";
     }
   }
 
@@ -1292,9 +1270,9 @@
   function endEdit() {
     editingId = null;
     editingBar.hidden = true;
-    formTitle.textContent = "Inscribe a Course";
-    formSub.textContent = "One course at a time";
-    submitBtn.textContent = "Inscribe Course";
+    formTitle.textContent = "Add a course";
+    formSub.textContent = "One course at a time. You can change any of them later.";
+    submitBtn.textContent = "Add course";
     resetForm(false);
   }
 
@@ -1317,9 +1295,9 @@
     renderGradeFields(course.grades);
 
     editingBar.hidden = false;
-    formTitle.textContent = "Amend a Course";
-    formSub.textContent = "Editing " + (course.name || "course");
-    submitBtn.textContent = "Save Changes";
+    formTitle.textContent = "Edit course";
+    formSub.textContent = "Editing " + (course.name || "this course");
+    submitBtn.textContent = "Save changes";
     errorBox.hidden = true;
 
     if (window.matchMedia("(max-width: 860px)").matches) {
@@ -1371,7 +1349,7 @@
       state.courses.forEach(function (c, i) { if (c.id === editingId) idx = i; });
       if (idx !== -1) state.courses[idx] = course;
       else state.courses.push(course);
-      toast("Course amended");
+      toast("Course updated");
     } else {
       state.courses.push(course);
     }
@@ -1379,9 +1357,9 @@
     var wasEditing = !!editingId;
     editingId = null;
     editingBar.hidden = true;
-    formTitle.textContent = "Inscribe a Course";
-    formSub.textContent = "One course at a time";
-    submitBtn.textContent = "Inscribe Course";
+    formTitle.textContent = "Add a course";
+    formSub.textContent = "One course at a time. You can change any of them later.";
+    submitBtn.textContent = "Add course";
 
     if (filterYear !== "all" && course.year !== Number(filterYear)) {
       /* keep the new/edited course visible */
@@ -1407,7 +1385,7 @@
   clearBtn.addEventListener("click", function () {
     if (!state.courses.length) return;
     var n = state.courses.length;
-    if (!window.confirm("Erase all " + n + " course" + (n === 1 ? "" : "s") + " from the ledger?")) return;
+    if (!window.confirm("Remove all " + n + " course" + (n === 1 ? "" : "s") + "? This can't be undone.")) return;
     state.courses = [];
     filterYear = "all";
     endEdit();
@@ -1468,8 +1446,8 @@
   function setMode(mode) {
     authMode = mode;
     var isSignup = mode === "signup";
-    authTitle.textContent = isSignup ? "Forge an Account" : "Enter the Hall";
-    authSubmit.textContent = isSignup ? "Create Account" : "Sign In";
+    authTitle.textContent = isSignup ? "Create an account" : "Sign in";
+    authSubmit.textContent = isSignup ? "Create account" : "Sign in";
     confirmWrap.hidden = !isSignup;
     uPass.setAttribute("autocomplete", isSignup ? "new-password" : "current-password");
     authError.hidden = true;
@@ -1521,7 +1499,7 @@
     }
 
     authSubmit.disabled = true;
-    authSubmit.textContent = authMode === "signup" ? "Forging…" : "Opening…";
+    authSubmit.textContent = authMode === "signup" ? "Creating…" : "Signing in…";
 
     var guestCourses = state.courses.slice();
     var wasGuest = state.courses.length;
@@ -1549,8 +1527,8 @@
         renderAccount();
         render();
         toast(result === "imported"
-          ? "Signed in — " + state.courses.length + " course(s) carried over"
-          : "Welcome, " + state.user);
+          ? "Signed in. " + state.courses.length + " course" + (state.courses.length === 1 ? "" : "s") + " came along."
+          : "Signed in as " + state.user + ".");
       })
       .catch(function () { authFail("Could not reach the server. Try again."); })
       .then(function () {
