@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The GPA Grimoire — Frisco ISD Weighted Scale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --plum:#1a0b14;
+    --plum-2:#2c1222;
+    --plum-3:#3f1a30;
+    --blush:#fffafb;
+    --blush-2:#fbe9ee;
+    --blush-3:#f3d5dd;
+    --ink:#3a1d2b;
+    --ink-2:#7b5468;
+    --rose:#b8516f;
+    --rose-deep:#8c2f4e;
+    --rose-hi:#f6d9d0;
+    --rose-gold:#d3a09a;
+    --rose-gold-hi:#f3d3c8;
+    --rg-dim:rgba(211,160,154,.42);
+    --mauve:#8b5d7d;
+    --serif:"EB Garamond",Georgia,serif;
+    --display:"Bodoni Moda",Georgia,serif;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+    --r:5px;
+  }
+
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  body{
+    margin:0;min-height:100vh;padding:44px 18px 80px;
+    font-family:var(--serif);font-size:17px;line-height:1.55;color:var(--blush-2);
+    background:
+      radial-gradient(115% 65% at 50% -16%, #653050 0%, #3b1730 40%, #1a0b14 80%),
+      radial-gradient(60% 45% at 85% 6%, rgba(211,160,154,.16), transparent 62%),
+      var(--plum);
+    background-attachment:fixed;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='.24'/></svg>");
+    opacity:.55;mix-blend-mode:overlay;
+  }
+  .wrap{max-width:1000px;margin:0 auto;position:relative;z-index:1}
+
+  /* ---------------- masthead ---------------- */
+  .masthead{text-align:center;margin-bottom:38px;animation:rise .85s cubic-bezier(.2,.85,.25,1) both}
+  .kicker{
+    font-family:var(--mono);font-size:10px;letter-spacing:.42em;text-transform:uppercase;
+    color:var(--rose-gold);opacity:.8;margin:0 0 16px;
+  }
+  h1{
+    font-family:var(--display);font-weight:900;font-optical-sizing:auto;
+    font-size:clamp(30px,7.6vw,64px);line-height:1.04;letter-spacing:.01em;
+    margin:0;
+    background:linear-gradient(176deg,#fff8f6 2%,#f9d9dd 30%,#dd9fb0 62%,#a8677f 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 3px 0 rgba(26,11,20,.55)) drop-shadow(0 0 28px rgba(232,160,180,.28));
+  }
+  .lede{
+    font-style:italic;font-size:17.5px;color:rgba(251,233,238,.66);
+    max-width:40ch;margin:16px auto 0;
+  }
+  .flourish{display:flex;align-items:center;justify-content:center;gap:14px;margin:22px 0 0;color:var(--rose-gold)}
+  .flourish span{font-size:14px;opacity:.9}
+  .flourish i{display:block;height:1px;width:84px;background:linear-gradient(90deg,transparent,var(--rg-dim),transparent)}
+
+  .account{display:flex;align-items:center;justify-content:center;gap:11px;flex-wrap:wrap;margin-top:24px}
+  .account-note{
+    font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+    color:rgba(251,233,238,.55);
+  }
+  .account-note b{color:var(--rose-gold-hi);font-weight:500;letter-spacing:.1em}
+  .dot{width:6px;height:6px;border-radius:50%;display:inline-block;background:var(--rose-gold);opacity:.5}
+  .dot.live{background:#8fd06a;opacity:.95;box-shadow:0 0 9px rgba(143,208,106,.85)}
+
+  .btn{
+    font-family:var(--mono);font-weight:500;font-size:9.5px;letter-spacing:.2em;
+    text-transform:uppercase;cursor:pointer;border-radius:var(--r);
+    padding:10px 17px;transition:all .18s ease;
+  }
+  .btn-ghost{color:var(--rose-gold-hi);background:transparent;border:1px solid var(--rg-dim)}
+  .btn-ghost:hover{background:rgba(211,160,154,.14);border-color:var(--rose-gold);color:#fff}
+  .btn-primary{
+    width:100%;padding:14px 18px;margin-top:22px;
+    color:var(--rose-gold-hi);border:1px solid var(--rose-gold);
+    background:linear-gradient(180deg,#3f1a30,#1d0d17);
+    box-shadow:inset 0 0 0 1px rgba(243,211,200,.14),0 8px 22px -12px #000;
+  }
+  .btn-primary:hover{
+    background:linear-gradient(180deg,#eec6c4,#c98d94);color:#2a1020;border-color:#fff2ee;
+    box-shadow:0 0 24px rgba(232,160,180,.35);
+  }
+  .btn-primary:active{transform:translateY(1px)}
+  .btn-primary:disabled{opacity:.6;cursor:progress}
+
+  /* ---------------- panels ---------------- */
+  .grid{display:grid;grid-template-columns:1.32fr 1fr;gap:22px;align-items:start}
+  @media (max-width:860px){ .grid{grid-template-columns:1fr} }
+
+  .panel{
+    position:relative;color:var(--ink);border-radius:var(--r);padding:28px 26px 26px;
+    background:
+      radial-gradient(120% 90% at 25% -8%, #fffafc 0%, #fbe9ef 44%, #f2d5de 100%);
+    border:1px solid rgba(211,160,154,.62);
+    box-shadow:
+      0 0 0 1px rgba(40,12,28,.5),
+      0 26px 52px -26px #000,
+      inset 0 0 70px rgba(178,120,140,.2);
+    transition:box-shadow .4s ease;
+  }
+  .panel.flash{box-shadow:0 0 0 1px rgba(40,12,28,.5),0 0 0 3px rgba(232,160,180,.55),0 26px 52px -26px #000,inset 0 0 70px rgba(178,120,140,.2)}
+  .panel::after{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='180' height='180' filter='url(%23p)' opacity='.3'/></svg>");
+    opacity:.5;mix-blend-mode:multiply;
+  }
+  .panel > *{position:relative;z-index:1}
+
+  .corner{position:absolute;width:15px;height:15px;border:1.4px solid var(--rose-gold);opacity:.9;pointer-events:none;z-index:2}
+  .corner.tl{top:7px;left:7px;border-right:0;border-bottom:0;border-top-left-radius:4px}
+  .corner.tr{top:7px;right:7px;border-left:0;border-bottom:0;border-top-right-radius:4px}
+  .corner.bl{bottom:7px;left:7px;border-right:0;border-top:0;border-bottom-left-radius:4px}
+  .corner.br{bottom:7px;right:7px;border-left:0;border-top:0;border-bottom-right-radius:4px}
+
+  .panel-title{
+    font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:.1em;
+    text-transform:uppercase;color:#6d2e45;margin:0 0 5px;text-align:center;
+  }
+  .panel-sub{
+    text-align:center;font-family:var(--mono);font-size:9px;letter-spacing:.2em;
+    text-transform:uppercase;color:rgba(109,46,69,.55);margin:0 0 20px;
+  }
+  .hr{display:flex;align-items:center;gap:10px;margin:0 0 22px;color:rgba(184,81,111,.7)}
+  .hr i{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(184,81,111,.45),transparent)}
+  .hr span{font-size:11px;line-height:1}
+
+  /* ---------------- form ---------------- */
+  .q{margin-bottom:19px}
+  .q:last-of-type{margin-bottom:0}
+  .q-label{
+    display:flex;align-items:baseline;gap:9px;margin-bottom:8px;
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;
+    text-transform:uppercase;color:#8a4a63;font-weight:500;
+  }
+  .num{color:var(--rose);font-weight:500}
+  .opt{
+    letter-spacing:.06em;text-transform:none;font-size:10.5px;font-style:italic;
+    font-family:var(--serif);color:rgba(138,74,99,.62);
+  }
+
+  input[type=text],input[type=password],input[type=number],select{
+    width:100%;padding:11px 13px;font-size:16px;font-family:var(--serif);
+    color:var(--ink);background:rgba(255,253,253,.72);
+    border:1px solid rgba(138,74,99,.28);border-radius:4px;
+    transition:border-color .15s,box-shadow .15s,background .15s;
+  }
+  input::placeholder{color:rgba(138,74,99,.45);font-style:italic}
+  select{
+    appearance:none;padding-right:36px;cursor:pointer;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'><path d='M1 1l4.5 4.5L10 1' fill='none' stroke='%23b8516f' stroke-width='1.5' stroke-linecap='round'/></svg>");
+    background-repeat:no-repeat;background-position:right 13px center;
+  }
+  input:focus,select:focus{
+    outline:none;border-color:var(--rose);background:#fffcfd;
+    box-shadow:0 0 0 3px rgba(184,81,111,.18);
+  }
+  input[type=number]{appearance:textfield;-moz-appearance:textfield}
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+
+  fieldset{border:0;margin:0;padding:0;min-width:0}
+  legend{padding:0;margin-bottom:8px}
+
+  .tiers{display:flex;flex-direction:column;gap:9px}
+  .tier{
+    display:flex;gap:12px;align-items:flex-start;cursor:pointer;
+    padding:12px 14px;border-radius:4px;
+    border:1px solid rgba(138,74,99,.22);
+    background:rgba(255,253,253,.5);
+    transition:background .16s,border-color .16s,box-shadow .16s;
+  }
+  .tier:hover{background:rgba(255,253,253,.85);border-color:rgba(184,81,111,.42)}
+  .tier input{
+    appearance:none;flex:none;width:16px;height:16px;margin:4px 0 0;
+    border-radius:50%;border:1.4px solid #b8849a;background:transparent;
+    transition:border-width .12s,border-color .12s;
+  }
+  .tier input:checked{border:4.5px solid var(--rose)}
+  .tier input:focus-visible{outline:2px solid var(--rose);outline-offset:3px}
+  .tier-body{min-width:0}
+  .tier-name{
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+    font-family:var(--display);font-weight:700;font-size:12.5px;letter-spacing:.09em;
+    text-transform:uppercase;color:#5d2a3d;
+  }
+  .pill{
+    font-family:var(--mono);font-size:8.5px;font-weight:500;letter-spacing:.15em;
+    padding:2px 6px;border-radius:2px;text-transform:uppercase;
+  }
+  .pill.t3{background:rgba(184,81,111,.15);color:var(--rose-deep)}
+  .pill.t2{background:rgba(139,93,125,.16);color:#6f4560}
+  .pill.t1{background:rgba(138,107,116,.16);color:#7a5a64}
+  .tier-desc{display:block;font-size:13.5px;line-height:1.35;color:#8a6273;margin-top:3px}
+  .tier:has(input:checked){
+    background:linear-gradient(180deg,#43203a,#240f1d);
+    border-color:var(--rose-gold);
+    box-shadow:0 8px 20px -12px #000,inset 0 0 24px rgba(211,160,154,.14);
+  }
+  .tier:has(input:checked) .tier-name{color:var(--rose-gold-hi)}
+  .tier:has(input:checked) .tier-desc{color:rgba(251,233,238,.62)}
+  .tier:has(input:checked) .tier input{border-color:var(--rose-gold-hi)}
+  .tier:has(input:checked) .pill{background:rgba(243,211,200,.16);color:var(--rose-gold-hi)}
+
+  /* compact chip pickers (status / semester) */
+  .chips{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .chips.three{grid-template-columns:1fr 1fr 1fr}
+  .chip{cursor:pointer;position:relative;display:block}
+  .chip input{
+    position:absolute;inset:0;width:100%;height:100%;margin:0;padding:0;
+    opacity:0;appearance:none;border:0;cursor:pointer;z-index:1;
+  }
+  .chip span{
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    padding:11px 8px;border-radius:4px;font-size:13.5px;line-height:1.25;
+    border:1px solid rgba(138,74,99,.22);background:rgba(255,253,253,.5);
+    color:#7b5468;transition:all .16s;
+  }
+  .chip:hover span{background:rgba(255,253,253,.85);border-color:rgba(184,81,111,.42)}
+  .chip input:checked+span{
+    background:linear-gradient(180deg,#43203a,#240f1d);color:var(--rose-gold-hi);
+    border-color:var(--rose-gold);box-shadow:0 6px 16px -12px #000;
+  }
+  .chip input:focus-visible+span{outline:2px solid var(--rose);outline-offset:2px}
+
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media (max-width:520px){ .row2{grid-template-columns:1fr} }
+
+  .gfields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .gfields .wide{grid-column:1/-1}
+  @media (max-width:440px){ .gfields{grid-template-columns:1fr} }
+  .hint{
+    margin:10px 0 0;font-size:12.5px;font-style:italic;line-height:1.4;
+    color:rgba(138,74,99,.75);
+  }
+  .preview{
+    margin:10px 0 0;padding:8px 11px;border-radius:3px;
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;
+    background:rgba(184,81,111,.09);color:var(--rose-deep);
+    border-left:2px solid var(--rose);
+  }
+
+  .error{
+    margin-top:16px;font-size:14px;font-style:italic;color:#8c2438;
+    background:rgba(184,81,111,.1);border-left:2px solid var(--rose);
+    padding:9px 12px;border-radius:0 3px 3px 0;
+  }
+  .editing-bar{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    margin:0 0 18px;padding:9px 12px;border-radius:3px;
+    background:linear-gradient(180deg,#43203a,#240f1d);color:var(--rose-gold-hi);
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  }
+  .editing-bar button{
+    background:none;border:1px solid rgba(243,211,200,.4);border-radius:3px;
+    color:var(--rose-gold-hi);font-family:var(--mono);font-size:8.5px;
+    letter-spacing:.14em;text-transform:uppercase;padding:5px 9px;cursor:pointer;
+  }
+  .editing-bar button:hover{background:rgba(243,211,200,.15)}
+
+  /* ---------------- ledger ---------------- */
+  .plaque{
+    position:relative;text-align:center;padding:20px 16px 18px;margin-bottom:20px;
+    border-radius:4px;border:1px solid rgba(211,160,154,.55);
+    background:radial-gradient(130% 130% at 50% -25%, #4d2339 0%, #2a1120 55%, #170a12 100%);
+    box-shadow:inset 0 0 46px rgba(0,0,0,.85),inset 0 1px 0 rgba(243,211,200,.18),0 14px 28px -20px #000;
+  }
+  .plaque-label{
+    font-family:var(--mono);font-size:8.5px;letter-spacing:.3em;text-transform:uppercase;
+    color:rgba(243,211,200,.66);margin-bottom:7px;
+  }
+  .gpa{
+    font-family:var(--display);font-weight:900;line-height:.95;letter-spacing:0;
+    font-size:clamp(50px,10vw,68px);font-variant-numeric:tabular-nums;
+    background:linear-gradient(178deg,#fff9fa,#f7cdd6 42%,#c98d9f);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 20px rgba(240,180,195,.4));
+  }
+  .gpa.empty{
+    background:none;-webkit-text-fill-color:rgba(243,211,200,.5);
+    filter:none;color:rgba(243,211,200,.5);
+    font-size:clamp(34px,6vw,44px);line-height:1.2;
+  }
+  .gpa.bump{animation:bump .5s cubic-bezier(.2,.9,.3,1)}
+  .gpa-meta{
+    font-family:var(--mono);font-size:9px;letter-spacing:.1em;line-height:1.9;
+    color:rgba(251,233,238,.55);margin-top:10px;text-transform:uppercase;
+  }
+  .gpa-meta b{color:var(--rose-gold-hi);font-weight:500}
+
+  .save-state{
+    font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;
+    text-align:center;color:rgba(138,74,99,.6);margin:-6px 0 14px;transition:color .2s;
+  }
+  .save-state.ok{color:#4f7c3e}
+  .save-state.bad{color:#a5304a}
+
+  .filter-row{
+    display:flex;align-items:center;gap:9px;margin-bottom:12px;
+  }
+  .filter-row label{
+    flex:none;font-family:var(--mono);font-size:9px;letter-spacing:.16em;
+    text-transform:uppercase;color:#8a4a63;
+  }
+  .filter-row select{
+    padding:7px 30px 7px 10px;font-size:14px;background-position:right 9px center;
+  }
+
+  .list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
+  .course{
+    display:flex;align-items:center;gap:8px;padding:9px 11px;
+    border:1px solid rgba(138,74,99,.2);border-radius:4px;
+    background:rgba(255,253,253,.42);
+    animation:rise .35s ease both;
+  }
+  .course .info{flex:1;min-width:0}
+  .course .name{
+    font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .course .meta{
+    display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:3px;
+    font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;
+    text-transform:uppercase;color:rgba(138,74,99,.75);
+  }
+  .chip-mini{
+    font-family:var(--mono);font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;
+    padding:1px 5px;border-radius:2px;background:rgba(184,81,111,.13);color:var(--rose-deep);
+  }
+  .course .pts{
+    flex:none;text-align:right;font-family:var(--mono);font-size:13px;font-weight:500;
+    color:#4a2434;font-variant-numeric:tabular-nums;
+  }
+  .course .pts small{display:block;font-size:7px;letter-spacing:.16em;color:rgba(138,74,99,.6)}
+  .icon-btn{
+    flex:none;width:24px;height:24px;display:grid;place-items:center;
+    border:1px solid rgba(138,74,99,.2);border-radius:3px;background:transparent;
+    color:rgba(138,74,99,.65);font-size:13px;line-height:1;cursor:pointer;
+    transition:all .15s;font-family:var(--serif);
+  }
+  .icon-btn.edit:hover{color:#fff;background:var(--mauve);border-color:var(--mauve)}
+  .icon-btn.del:hover{color:#fff;background:var(--rose-deep);border-color:var(--rose-deep)}
+
+  .empty-note{
+    text-align:center;font-style:italic;font-size:14.5px;
+    color:rgba(138,74,99,.7);padding:22px 10px;margin:0;
+  }
+
+  .tools{display:flex;gap:8px;padding-top:16px;margin-top:16px;border-top:1px solid rgba(138,74,99,.16)}
+  .link-btn{
+    flex:1;padding:9px;font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;
+    text-transform:uppercase;cursor:pointer;color:#8a4a63;background:transparent;
+    border:1px solid rgba(138,74,99,.24);border-radius:3px;transition:all .15s;
+  }
+  .link-btn:hover:not(:disabled){background:linear-gradient(180deg,#43203a,#240f1d);color:var(--rose-gold-hi);border-color:var(--rose-gold)}
+  .link-btn:disabled{opacity:.4;cursor:not-allowed}
+
+  /* ---------------- scale ---------------- */
+  details.scale{
+    margin-top:22px;border-radius:var(--r);color:var(--ink);position:relative;
+    background:radial-gradient(120% 90% at 25% -8%,#fff9fb 0%,#fae6ec 45%,#f0d2db 100%);
+    border:1px solid rgba(211,160,154,.55);
+    box-shadow:0 0 0 1px rgba(40,12,28,.5),0 22px 44px -28px #000,inset 0 0 60px rgba(178,120,140,.18);
+    animation:rise .85s .28s cubic-bezier(.2,.85,.25,1) both;
+  }
+  details.scale summary{
+    list-style:none;cursor:pointer;padding:18px 26px;
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.14em;
+    text-transform:uppercase;color:#6d2e45;
+  }
+  details.scale summary::-webkit-details-marker{display:none}
+  details.scale summary::after{content:"❀";font-size:11px;color:var(--rose);transition:transform .3s}
+  details.scale[open] summary::after{transform:rotate(180deg)}
+  .scale-body{padding:0 26px 26px;border-top:1px solid rgba(138,74,99,.14)}
+  .scale-body p{font-size:14px;font-style:italic;color:#8a6273;margin:16px 0;max-width:70ch}
+  table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px;font-variant-numeric:tabular-nums}
+  th,td{padding:5px 8px;text-align:right;border-bottom:1px solid rgba(138,74,99,.11)}
+  th:first-child,td:first-child{text-align:left;font-weight:500}
+  thead th{
+    font-size:8px;letter-spacing:.13em;text-transform:uppercase;
+    color:#8a4a63;border-bottom:1px solid rgba(138,74,99,.3);
+  }
+  th.t3,td.t3h{color:var(--rose-deep)}
+  th.t2,td.t2h{color:#6f4560}
+  th.t1,td.t1h{color:#7a5a64}
+  tbody tr:hover{background:rgba(255,253,253,.5)}
+
+  .foot{
+    text-align:center;font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;
+    text-transform:uppercase;color:rgba(211,160,154,.4);margin-top:34px;
+  }
+
+  /* ---------------- modal ---------------- */
+  .modal{
+    position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:20px;
+    background:radial-gradient(80% 60% at 50% 0%,rgba(90,45,70,.55),rgba(12,5,10,.92));
+    backdrop-filter:blur(4px);animation:fade .25s ease both;
+    overflow:auto;
+  }
+  .modal[hidden]{display:none}
+  .modal-card{width:100%;max-width:400px;padding:30px 28px;animation:rise .45s cubic-bezier(.2,.85,.25,1) both}
+  .modal-x{
+    position:absolute;top:10px;right:12px;z-index:3;background:none;border:0;
+    font-size:20px;line-height:1;cursor:pointer;color:rgba(138,74,99,.6);
+    padding:6px;font-family:var(--serif);
+  }
+  .modal-x:hover{color:var(--rose-deep)}
+  .modal-title{
+    font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:.08em;
+    text-transform:uppercase;text-align:center;color:#6d2e45;margin:0 0 18px;
+  }
+  .seg{
+    display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(138,74,99,.26);
+    border-radius:4px;overflow:hidden;margin-bottom:22px;
+  }
+  .seg button{
+    padding:10px 6px;font-family:var(--mono);font-size:8.5px;letter-spacing:.13em;
+    text-transform:uppercase;cursor:pointer;background:transparent;border:0;
+    color:#8a6273;transition:all .16s;
+  }
+  .seg button+button{border-left:1px solid rgba(138,74,99,.26)}
+  .seg button.on{background:linear-gradient(180deg,#43203a,#240f1d);color:var(--rose-gold-hi)}
+  .auth-field{margin-bottom:15px}
+  .auth-field label{
+    display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.18em;
+    text-transform:uppercase;color:#8a4a63;margin-bottom:7px;
+  }
+  .auth-error{
+    font-size:14px;font-style:italic;color:#8c2438;background:rgba(184,81,111,.1);
+    border-left:2px solid var(--rose);padding:8px 11px;margin:0 0 4px;
+  }
+  .auth-fine{text-align:center;font-size:13px;font-style:italic;color:rgba(138,74,99,.72);margin:14px 0 0}
+
+  .toast{
+    position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:60;
+    background:linear-gradient(180deg,#43203a,#1d0d17);color:var(--rose-gold-hi);
+    border:1px solid var(--rose-gold);border-radius:4px;padding:11px 20px;
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+    box-shadow:0 16px 34px -18px #000;animation:toastIn .3s ease both;
+  }
+  .toast[hidden]{display:none}
+
+  @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  @keyframes bump{0%{transform:scale(1)}35%{transform:scale(1.07)}100%{transform:scale(1)}}
+  @keyframes toastIn{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}
+
+  @media (max-width:430px){
+    .kicker{letter-spacing:.26em;font-size:9px}
+    .foot{letter-spacing:.14em;line-height:1.8}
+    .panel{padding:26px 20px 22px}
+    .plaque{padding:18px 12px 16px}
+  }
+
+  @media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="kicker">Frisco ISD · Weighted Grade Scale</p>
+    <h1>The GPA Grimoire</h1>
+    <p class="lede">Inscribe every course you have conquered, and the ledger shall reckon your weighted standing.</p>
+
+    <div class="flourish"><i></i><span>❀</span><i></i></div>
+
+    <div class="account">
+      <span class="dot" id="accountDot"></span>
+      <span class="account-note" id="accountNote">Guest — this browser only</span>
+      <button type="button" class="btn btn-ghost" id="accountBtn">Sign in</button>
+    </div>
+  </header>
+
+  <main class="grid">
+
+    <!-- ================= FORM ================= -->
+    <section class="panel" id="formPanel" style="animation:rise .85s .1s cubic-bezier(.2,.85,.25,1) both">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <h2 class="panel-title" id="formTitle">Inscribe a Course</h2>
+      <p class="panel-sub" id="formSub">One course at a time</p>
+      <div class="hr"><i></i><span>✦</span><i></i></div>
+
+      <div class="editing-bar" id="editingBar" hidden>
+        <span>Amending an existing course</span>
+        <button type="button" id="cancelEdit">Cancel</button>
+      </div>
+
+      <form id="form" novalidate>
+
+        <div class="q">
+          <label class="q-label" for="cname"><span class="num">I.</span> Course name <span class="opt">(optional)</span></label>
+          <input id="cname" type="text" placeholder="e.g. AP Biology" autocomplete="off" maxlength="60">
+        </div>
+
+        <fieldset class="q">
+          <legend class="q-label"><span class="num">II.</span> What manner of course is it?</legend>
+          <div class="tiers">
+            <label class="tier">
+              <input type="radio" name="tier" value="3">
+              <span class="tier-body">
+                <span class="tier-name">AP / IB <span class="pill t3">Tier III</span></span>
+                <span class="tier-desc">AP, IB, Computer Science III Advanced, and other designated courses</span>
+              </span>
+            </label>
+            <label class="tier">
+              <input type="radio" name="tier" value="2">
+              <span class="tier-body">
+                <span class="tier-name">Advanced <span class="pill t2">Tier II</span></span>
+                <span class="tier-desc">Advanced, dual credit, PLTW, ISM/ISC, Academic Decathlon, Engineering</span>
+              </span>
+            </label>
+            <label class="tier">
+              <input type="radio" name="tier" value="1">
+              <span class="tier-body">
+                <span class="tier-name">On Level <span class="pill t1">Tier I</span></span>
+                <span class="tier-desc">Standard high school and on-level courses</span>
+              </span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="row2">
+          <div class="q">
+            <label class="q-label" for="year"><span class="num">III.</span> Which year?</label>
+            <select id="year">
+              <option value="7">7th Grade</option>
+              <option value="8">8th Grade</option>
+              <option value="9" selected>9th Grade</option>
+              <option value="10">10th Grade</option>
+              <option value="11">11th Grade</option>
+              <option value="12">12th Grade</option>
+            </select>
+          </div>
+          <div class="q">
+            <label class="q-label" for="credits"><span class="num">IV.</span> Credits</label>
+            <select id="credits">
+              <option value="1" selected>1 credit</option>
+              <option value="2">2 credits</option>
+            </select>
+          </div>
+        </div>
+
+        <fieldset class="q">
+          <legend class="q-label"><span class="num">V.</span> Have you finished it, or are you taking it now?</legend>
+          <div class="chips">
+            <label class="chip"><input type="radio" name="status" value="past"><span>Past course</span></label>
+            <label class="chip"><input type="radio" name="status" value="current"><span>Taking it now</span></label>
+          </div>
+        </fieldset>
+
+        <div class="q" id="semesterWrap" hidden>
+          <label class="q-label" for="semester"><span class="num">VI.</span> Which semester are you in?</label>
+          <div class="chips">
+            <label class="chip"><input type="radio" name="semester" value="1" checked><span>1st semester</span></label>
+            <label class="chip"><input type="radio" name="semester" value="2"><span>2nd semester</span></label>
+          </div>
+        </div>
+
+        <fieldset class="q" id="gradesWrap" hidden>
+          <legend class="q-label"><span class="num">VII.</span> Which grades do you have?</legend>
+          <div class="gfields" id="gradeFields"></div>
+          <p class="hint" id="gradesHint"></p>
+          <p class="preview" id="avgPreview" hidden></p>
+        </fieldset>
+
+        <div class="error" id="error" hidden></div>
+        <button type="submit" class="btn btn-primary" id="submitBtn">Inscribe Course</button>
+      </form>
+    </section>
+
+    <!-- ================= LEDGER ================= -->
+    <section class="panel" style="animation:rise .85s .2s cubic-bezier(.2,.85,.25,1) both">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <h2 class="panel-title">Your Ledger</h2>
+      <p class="panel-sub">Weighted reckoning</p>
+      <div class="hr"><i></i><span>✦</span><i></i></div>
+
+      <div class="plaque">
+        <div class="plaque-label" id="plaqueLabel">Weighted GPA</div>
+        <div class="gpa empty" id="gpaValue">—</div>
+        <div class="gpa-meta" id="gpaSub">No courses inscribed</div>
+      </div>
+
+      <p class="save-state" id="saveState">Saved in this browser</p>
+
+      <div class="filter-row" id="filterRow" hidden>
+        <label for="yearFilter">Viewing</label>
+        <select id="yearFilter"></select>
+      </div>
+
+      <ul class="list" id="list"></ul>
+      <p class="empty-note" id="emptyNote">The ledger lies empty. Inscribe your first course.</p>
+
+      <div class="tools">
+        <button type="button" class="link-btn" id="clear" disabled>Clear ledger</button>
+      </div>
+    </section>
+
+  </main>
+
+  <details class="scale">
+    <summary>Behold the Grade Scale</summary>
+    <div class="scale-body">
+      <p>Grade points are earned by each <b>semester</b> grade — a year-long course is two of them, a one-semester course one — and each semester is worth half of the course's credits. Quarters are averaged into the whole semester grade your report card shows. Any grade beneath a 70 yields no grade points.</p>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Grade</th>
+            <th scope="col" class="t3">AP / IB</th>
+            <th scope="col" class="t2">Advanced</th>
+            <th scope="col" class="t1">On Level</th>
+          </tr>
+        </thead>
+        <tbody id="scaleBody"></tbody>
+      </table>
+      <p>For courses earning two credits, the grade is counted twice in the calculation.</p>
+    </div>
+  </details>
+
+  <p class="foot">Frisco ISD Academic Guide &amp; Course Catalog · Classes of 2024 and Beyond</p>
+</div>
+
+<div class="modal" id="modal" hidden>
+  <div class="panel modal-card" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+    <button type="button" class="modal-x" id="closeAuth" aria-label="Close">×</button>
+
+    <h2 class="modal-title" id="authTitle">Enter the Hall</h2>
+
+    <div class="seg" role="tablist">
+      <button type="button" data-mode="login" class="on" role="tab">Sign in</button>
+      <button type="button" data-mode="signup" role="tab">Create account</button>
+    </div>
+
+    <form id="authForm" novalidate>
+      <div class="auth-field">
+        <label for="uName">Username</label>
+        <input id="uName" type="text" autocomplete="username" maxlength="24" placeholder="e.g. valeria">
+      </div>
+      <div class="auth-field">
+        <label for="uPass">Password</label>
+        <input id="uPass" type="password" autocomplete="current-password" maxlength="200" placeholder="At least 8 characters">
+      </div>
+      <div class="auth-field" id="confirmWrap" hidden>
+        <label for="uPass2">Confirm password</label>
+        <input id="uPass2" type="password" autocomplete="new-password" maxlength="200" placeholder="Type it once more">
+      </div>
+
+      <p class="auth-error" id="authError" hidden></p>
+      <button type="submit" class="btn btn-primary" id="authSubmit">Sign In</button>
+    </form>
+
+    <p class="auth-fine">No email, no verification. A name and a password.</p>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* grade scale: grade -> [Tier III (AP/IB), Tier II (Advanced), Tier I (On Level)] */
+  var SCALE = {
+    100:[6.0,5.5,5.0], 99:[5.9,5.4,4.9], 98:[5.8,5.3,4.8], 97:[5.7,5.2,4.7],
+    96:[5.6,5.1,4.6],  95:[5.5,5.0,4.5], 94:[5.4,4.9,4.4], 93:[5.3,4.8,4.3],
+    92:[5.2,4.7,4.2],  91:[5.1,4.6,4.1], 90:[5.0,4.5,4.0], 89:[4.9,4.4,3.9],
+    88:[4.8,4.3,3.8],  87:[4.7,4.2,3.7], 86:[4.6,4.1,3.6], 85:[4.5,4.0,3.5],
+    84:[4.4,3.9,3.4],  83:[4.3,3.8,3.3], 82:[4.2,3.7,3.2], 81:[4.1,3.6,3.1],
+    80:[4.0,3.5,3.0],  79:[3.9,3.4,2.9], 78:[3.8,3.3,2.8], 77:[3.7,3.2,2.7],
+    76:[3.6,3.1,2.6],  75:[3.5,3.0,2.5], 74:[3.4,2.9,2.4], 73:[3.3,2.8,2.3],
+    72:[3.2,2.7,2.2],  71:[3.1,2.6,2.1], 70:[3.0,2.5,2.0]
+  };
+
+  var TIER_META = {
+    3: { label: "AP / IB",  pill: "Tier III", idx: 0, cls: "t3" },
+    2: { label: "Advanced", pill: "Tier II",  idx: 1, cls: "t2" },
+    1: { label: "On Level", pill: "Tier I",   idx: 2, cls: "t1" }
+  };
+
+  var YEAR_NAMES = {
+    7: "7th Grade", 8: "8th Grade", 9: "9th Grade",
+    10: "10th Grade", 11: "11th Grade", 12: "12th Grade"
+  };
+
+  var GRADE_KEYS = ["sem1", "sem2", "q1", "q2", "q3", "q4"];
+  var LOCAL_KEY = "fisd-gpa-courses-v3";
+  var LEGACY_KEY = "fisd-gpa-courses-v2";
+  var YEAR_KEY = "fisd-gpa-year-v1";
+
+  var state = { courses: [], user: null };
+  var editingId = null;
+  var filterYear = "all";
+  var lastGpa = null;
+  var saveTimer = null;
+  var authMode = "login";
+  var toastTimer = null;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var form = $("form"), nameIn = $("cname"), yearSel = $("year"), creditIn = $("credits");
+  var semesterWrap = $("semesterWrap"), gradesWrap = $("gradesWrap");
+  var gradeFields = $("gradeFields"), gradesHint = $("gradesHint"), avgPreview = $("avgPreview");
+  var errorBox = $("error"), listEl = $("list"), emptyNote = $("emptyNote");
+  var gpaValue = $("gpaValue"), gpaSub = $("gpaSub"), clearBtn = $("clear");
+  var saveState = $("saveState"), plaqueLabel = $("plaqueLabel");
+  var filterRow = $("filterRow"), yearFilter = $("yearFilter");
+  var formPanel = $("formPanel"), formTitle = $("formTitle"), formSub = $("formSub");
+  var submitBtn = $("submitBtn"), editingBar = $("editingBar");
+  var accountDot = $("accountDot"), accountNote = $("accountNote"), accountBtn = $("accountBtn");
+  var modal = $("modal"), authForm = $("authForm"), authTitle = $("authTitle");
+  var authError = $("authError"), authSubmit = $("authSubmit"), confirmWrap = $("confirmWrap");
+  var uName = $("uName"), uPass = $("uPass"), uPass2 = $("uPass2");
+  var toastEl = $("toast");
+
+  /* ------------------------------------------------------------------ *
+   *  grade maths                                                        *
+   * ------------------------------------------------------------------ */
+
+  /* grade points come from the whole grade a teacher would record, so a typed
+     89.5 earns the 90 row rather than being dropped to 89 */
+  function pointsFor(gradeNumber, tier) {
+    var row = SCALE[Math.round(gradeNumber)];
+    return row ? row[TIER_META[tier].idx] : 0;
+  }
+
+  function checkedTier() {
+    var el = form.querySelector('input[name="tier"]:checked');
+    return el ? Number(el.value) : null;
+  }
+
+  function checkedStatus() {
+    var el = form.querySelector('input[name="status"]:checked');
+    return el ? el.value : null;
+  }
+
+  function checkedSemester() {
+    var el = form.querySelector('input[name="semester"]:checked');
+    return el ? Number(el.value) : 1;
+  }
+
+  /* which grade slots a course uses */
+  function fieldSpec(status, semester) {
+    if (status === "current") {
+      if (semester === 2) {
+        return [
+          { k: "sem1", l: "Semester 1" },
+          { k: "q3", l: "Quarter 3" },
+          { k: "q4", l: "Quarter 4" }
+        ];
+      }
+      return [{ k: "q1", l: "Quarter 1" }, { k: "q2", l: "Quarter 2" }];
+    }
+    return [{ k: "sem1", l: "Semester 1" }, { k: "sem2", l: "Semester 2" }];
+  }
+
+  function valuesOf(course) {
+    var spec = fieldSpec(course.status, course.semester);
+    var vals = [];
+    spec.forEach(function (f) {
+      var v = course.grades[f.k];
+      if (typeof v === "number" && isFinite(v)) vals.push(v);
+    });
+    return vals;
+  }
+
+  /* course grade = plain average of the grades that exist */
+  function courseAverage(course) {
+    var vals = valuesOf(course);
+    if (!vals.length) return null;
+    var sum = 0;
+    vals.forEach(function (v) { sum += v; });
+    return sum / vals.length;
+  }
+
+  /* Frisco ISD awards grade points to SEMESTER grades, so a course is broken
+     into the semesters it has. A course still in progress gets its semester
+     grade from its quarters (the whole number on the report card), and each
+     semester is worth half of the course's credits. */
+  function semesterValues(course) {
+    var g = course.grades || {};
+    function has(k) { return typeof g[k] === "number" && isFinite(g[k]); }
+
+    function semesterGrade(keys) {
+      var list = keys.filter(has).map(function (k) { return g[k]; });
+      if (!list.length) return null;
+      var sum = 0;
+      list.forEach(function (v) { sum += v; });
+      return Math.round(sum / list.length);
+    }
+
+    var out = [];
+    if (course.status === "current" && course.semester === 2) {
+      if (has("sem1")) out.push(g.sem1);
+      var second = semesterGrade(["q3", "q4"]);
+      if (second !== null) out.push(second);
+    } else if (course.status === "current") {
+      var first = semesterGrade(["q1", "q2"]);
+      if (first !== null) out.push(first);
+    } else {
+      if (has("sem1")) out.push(g.sem1);
+      if (has("sem2")) out.push(g.sem2);
+    }
+    return out;
+  }
+
+  /* points for a course = average of its semester grades' points */
+  function coursePoints(course) {
+    var sem = semesterValues(course);
+    if (!sem.length) return 0;
+    var sum = 0;
+    sem.forEach(function (v) { sum += pointsFor(v, course.tier); });
+    return sum / sem.length;
+  }
+
+  /* credits actually earned so far: half of the course's credits per semester */
+  function courseCredits(course) {
+    var sem = semesterValues(course);
+    return course.credits * (sem.length / 2);
+  }
+
+  function formatCredits(n) {
+    return String(Math.round(n * 10) / 10);
+  }
+
+  /* 4 -> "4", 3.95 -> "3.95", 4.3333 -> "4.33" */
+  function formatPoints(p) {
+    var r = Math.round(p * 100) / 100;
+    return r % 1 === 0 ? r.toFixed(0) : String(r);
+  }
+
+  function formatGrade(g) {
+    if (g === null || !isFinite(g)) return "—";
+    var r = Math.round(g * 10) / 10;
+    return (r % 1 === 0 ? r.toFixed(0) : r.toFixed(1));
+  }
+
+  function summary(list) {
+    var credits = 0, points = 0;
+    (list || []).forEach(function (c) {
+      var cr = courseCredits(c);
+      credits += cr;
+      points += coursePoints(c) * cr;
+    });
+    return { credits: credits, points: points, gpa: credits > 0 ? points / credits : 0 };
+  }
+
+  /* ------------------------------------------------------------------ *
+   *  storage / normalisation                                            *
+   * ------------------------------------------------------------------ */
+
+  function normalize(raw) {
+    if (!raw || !TIER_META[raw.tier]) return null;
+
+    var year = Number(raw.year);
+    if (!(year >= 7 && year <= 12)) year = 9;
+
+    var status = raw.status === "current" ? "current" : "past";
+    var semester = status === "current" ? (Number(raw.semester) === 2 ? 2 : 1) : null;
+
+    var grades = {};
+    if (raw.grades && typeof raw.grades === "object") {
+      GRADE_KEYS.forEach(function (k) {
+        var v = raw.grades[k];
+        if (v === null || v === undefined || v === "") return;
+        var n = Math.round(Number(v) * 10) / 10;
+        if (isFinite(n) && n >= 0 && n <= 100) grades[k] = n;
+      });
+    } else if (raw.grade !== undefined) {
+      /* legacy single-grade course: treat it as both semesters */
+      var legacy = raw.grade === "below70" ? 69 : Math.round(Number(raw.grade) * 10) / 10;
+      if (isFinite(legacy) && legacy >= 0 && legacy <= 100) {
+        grades.sem1 = legacy;
+        grades.sem2 = legacy;
+      }
+    }
+
+    var course = {
+      id: raw.id ? String(raw.id) : Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+      name: typeof raw.name === "string" ? raw.name.slice(0, 60) : "",
+      tier: Number(raw.tier),
+      credits: Number(raw.credits) === 2 ? 2 : 1,
+      year: year,
+      status: status,
+      semester: semester,
+      grades: grades
+    };
+
+    return courseAverage(course) === null ? null : course;
+  }
+
+  function sanitize(list) {
+    if (!Array.isArray(list)) return [];
+    var out = [];
+    list.forEach(function (c) {
+      var n = normalize(c);
+      if (n) out.push(n);
+    });
+    return out;
+  }
+
+  function readLocal() {
+    try {
+      var raw = localStorage.getItem(LOCAL_KEY);
+      if (raw) return sanitize(JSON.parse(raw));
+      var legacy = localStorage.getItem(LEGACY_KEY);
+      if (legacy) return sanitize(JSON.parse(legacy));
+      return [];
+    } catch (e) { return []; }
+  }
+
+  function writeLocal() {
+    try {
+      localStorage.setItem(LOCAL_KEY, JSON.stringify(state.courses));
+      localStorage.setItem(YEAR_KEY, String(yearSel.value));
+    } catch (e) {}
+  }
+
+  function setSaveState(text, kind) {
+    saveState.textContent = text;
+    saveState.className = "save-state" + (kind ? " " + kind : "");
+  }
+
+  function api(method, path, body) {
+    return fetch(path, {
+      method: method,
+      headers: body ? { "Content-Type": "application/json" } : {},
+      body: body ? JSON.stringify(body) : undefined,
+      credentials: "same-origin"
+    }).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (data) {
+        return { ok: res.ok, status: res.status, data: data };
+      });
+    });
+  }
+
+  function persist() {
+    if (!state.user) { writeLocal(); setSaveState("Saved in this browser", "ok"); return; }
+    setSaveState("Saving…");
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function () {
+      api("PUT", "/api/courses", { courses: state.courses }).then(function (res) {
+        if (res.ok) setSaveState("Saved to your account", "ok");
+        else if (res.status === 401) { dropToGuest(); setSaveState("Signed out", "bad"); }
+        else setSaveState("Could not save — retrying", "bad");
+      }).catch(function () {
+        setSaveState("Offline — changes held here", "bad");
+        writeLocal();
+      });
+    }, 400);
+  }
+
+  /* ------------------------------------------------------------------ *
+   *  year filter                                                        *
+   * ------------------------------------------------------------------ */
+
+  function yearsPresent() {
+    var seen = {};
+    state.courses.forEach(function (c) { seen[c.year] = true; });
+    return Object.keys(seen).map(Number).sort(function (a, b) { return a - b; });
+  }
+
+  function buildYearFilter() {
+    var years = yearsPresent();
+    filterRow.hidden = years.length === 0;
+
+    if (filterYear !== "all" && years.indexOf(Number(filterYear)) === -1) filterYear = "all";
+
+    yearFilter.textContent = "";
+    var all = document.createElement("option");
+    all.value = "all";
+    all.textContent = "All years";
+    yearFilter.appendChild(all);
+
+    years.forEach(function (y) {
+      var opt = document.createElement("option");
+      opt.value = String(y);
+      opt.textContent = YEAR_NAMES[y];
+      yearFilter.appendChild(opt);
+    });
+
+    yearFilter.value = String(filterYear);
+  }
+
+  function visibleCourses() {
+    if (filterYear === "all") return state.courses.slice();
+    var y = Number(filterYear);
+    return state.courses.filter(function (c) { return c.year === y; });
+  }
+
+  /* ------------------------------------------------------------------ *
+   *  render                                                             *
+   * ------------------------------------------------------------------ */
+
+  function render() {
+    buildYearFilter();
+    var shown = visibleCourses();
+    listEl.textContent = "";
+
+    shown.forEach(function (c, i) {
+      var meta = TIER_META[c.tier];
+      var pts = coursePoints(c);
+      var avg = courseAverage(c);
+
+      var li = document.createElement("li");
+      li.className = "course";
+      li.style.animationDelay = Math.min(i * 0.03, 0.3) + "s";
+
+      var info = document.createElement("div");
+      info.className = "info";
+
+      var name = document.createElement("div");
+      name.className = "name";
+      name.textContent = c.name || "Course " + (i + 1);
+
+      var metaRow = document.createElement("div");
+      metaRow.className = "meta";
+
+      var pill = document.createElement("span");
+      pill.className = "pill " + meta.cls;
+      pill.textContent = meta.pill;
+
+      var yearChip = document.createElement("span");
+      yearChip.className = "chip-mini";
+      yearChip.textContent = c.year + "th";
+
+      var detail = document.createElement("span");
+      var earned = courseCredits(c);
+      detail.textContent = "Grade " + formatGrade(avg) + " · " + formatCredits(earned) +
+        (earned === 1 ? " credit" : " credits");
+
+      metaRow.appendChild(pill);
+      metaRow.appendChild(yearChip);
+      metaRow.appendChild(detail);
+
+      if (c.status === "current") {
+        var live = document.createElement("span");
+        live.className = "chip-mini";
+        live.textContent = "in progress";
+        metaRow.appendChild(live);
+      }
+
+      info.appendChild(name);
+      info.appendChild(metaRow);
+
+      var ptsEl = document.createElement("div");
+      ptsEl.className = "pts";
+      ptsEl.textContent = formatPoints(pts);
+      var ptsSmall = document.createElement("small");
+      ptsSmall.textContent = c.credits === 2 ? "PTS ×2" : "PTS";
+      ptsEl.appendChild(ptsSmall);
+
+      var edit = document.createElement("button");
+      edit.type = "button";
+      edit.className = "icon-btn edit";
+      edit.textContent = "✎";
+      edit.setAttribute("aria-label", "Edit " + (c.name || "course " + (i + 1)));
+      edit.addEventListener("click", function () { startEdit(c); });
+
+      var del = document.createElement("button");
+      del.type = "button";
+      del.className = "icon-btn del";
+      del.textContent = "×";
+      del.setAttribute("aria-label", "Remove " + (c.name || "course " + (i + 1)));
+      del.addEventListener("click", function () {
+        var idx = state.courses.indexOf(c);
+        if (idx === -1) return;
+        state.courses.splice(idx, 1);
+        if (editingId === c.id) endEdit();
+        render();
+        persist();
+      });
+
+      li.appendChild(info);
+      li.appendChild(ptsEl);
+      li.appendChild(edit);
+      li.appendChild(del);
+      listEl.appendChild(li);
+    });
+
+    var s = summary(shown);
+    var has = shown.length > 0;
+
+    emptyNote.hidden = has;
+    clearBtn.disabled = state.courses.length === 0;
+
+    plaqueLabel.textContent = filterYear === "all"
+      ? "Weighted GPA"
+      : YEAR_NAMES[Number(filterYear)].toUpperCase() + " GPA";
+
+    if (has) {
+      var text = s.gpa.toFixed(3);
+      gpaValue.classList.remove("empty");
+      if (lastGpa !== null && lastGpa !== text) {
+        gpaValue.classList.remove("bump");
+        void gpaValue.offsetWidth;
+        gpaValue.classList.add("bump");
+      }
+      gpaValue.textContent = text;
+      lastGpa = text;
+
+      gpaSub.textContent = "";
+      gpaSub.appendChild(bold(String(shown.length)));
+      gpaSub.appendChild(document.createTextNode(" course" + (shown.length === 1 ? "" : "s") + " · "));
+      gpaSub.appendChild(bold(String(s.credits)));
+      gpaSub.appendChild(document.createTextNode(" credit" + (s.credits === 1 ? "" : "s") + " · "));
+      gpaSub.appendChild(bold(formatPoints(s.points)));
+      gpaSub.appendChild(document.createTextNode(" grade points ÷ "));
+      gpaSub.appendChild(bold(formatCredits(s.credits)));
+      gpaSub.appendChild(document.createTextNode(" credit" + (s.credits === 1 ? "" : "s")));
+    } else {
+      gpaValue.classList.add("empty");
+      gpaValue.textContent = "—";
+      lastGpa = null;
+      gpaSub.textContent = state.courses.length ? "No courses in this year" : "No courses inscribed";
+    }
+  }
+
+  function bold(t) {
+    var b = document.createElement("b");
+    b.textContent = t;
+    return b;
+  }
+
+  function renderAccount() {
+    accountNote.textContent = "";
+    if (state.user) {
+      accountNote.appendChild(document.createTextNode("Signed in as "));
+      accountNote.appendChild(bold(state.user));
+      accountBtn.textContent = "Sign out";
+      accountDot.className = "dot live";
+      setSaveState("Saved to your account", "ok");
+    } else {
+      accountNote.textContent = "Guest — this browser only";
+      accountBtn.textContent = "Sign in";
+      accountDot.className = "dot";
+      setSaveState("Saved in this browser", "ok");
+    }
+  }
+
+  /* ------------------------------------------------------------------ *
+   *  dynamic grade fields                                               *
+   * ------------------------------------------------------------------ */
+
+  function renderGradeFields(preset) {
+    var status = checkedStatus();
+    gradeFields.textContent = "";
+
+    if (!status) {
+      gradesWrap.hidden = true;
+      semesterWrap.hidden = true;
+      avgPreview.hidden = true;
+      return;
+    }
+
+    semesterWrap.hidden = status !== "current";
+    gradesWrap.hidden = false;
+
+    var semester = status === "current" ? checkedSemester() : null;
+    var spec = fieldSpec(status, semester);
+
+    spec.forEach(function (f) {
+      var wrap = document.createElement("div");
+      wrap.className = "gfield";
+
+      var lab = document.createElement("label");
+      lab.className = "q-label";
+      lab.setAttribute("for", "g_" + f.k);
+      lab.textContent = f.l;
+
+      var inp = document.createElement("input");
+      inp.type = "number";
+      inp.id = "g_" + f.k;
+      inp.min = "0";
+      inp.max = "100";
+      inp.step = "0.1";
+      inp.inputMode = "decimal";
+      inp.placeholder = "—";
+      inp.autocomplete = "off";
+      inp.setAttribute("data-key", f.k);
+      inp.addEventListener("input", updateAveragePreview);
+
+      if (preset && preset[f.k] !== undefined && preset[f.k] !== null) {
+        inp.value = String(preset[f.k]);
+      }
+
+      wrap.appendChild(lab);
+      wrap.appendChild(inp);
+      gradeFields.appendChild(wrap);
+    });
+
+    gradesHint.textContent = status === "current"
+      ? "Leave a grade blank if it doesn't exist yet — blanks are ignored. Decimals are fine (89.5)."
+      : "Leave a semester blank if the course only ran one semester. Decimals are fine (89.5).";
+
+    updateAveragePreview();
+  }
+
+  function currentInputs() {
+    var out = [];
+    Array.prototype.forEach.call(gradeFields.querySelectorAll("input"), function (el) {
+      out.push({ key: el.getAttribute("data-key"), el: el });
+    });
+    return out;
+  }
+
+  function readGradeInputs() {
+    var vals = [], bad = null;
+    currentInputs().forEach(function (item) {
+      var raw = item.el.value.trim();
+      if (raw === "") return;
+      var n = Number(raw);
+      if (!isFinite(n) || n < 0 || n > 100) { bad = item.el; return; }
+      vals.push({ key: item.key, value: Math.round(n * 10) / 10 });
+    });
+    return { vals: vals, bad: bad };
+  }
+
+  function updateAveragePreview() {
+    var status = checkedStatus();
+    if (!status) { avgPreview.hidden = true; return; }
+
+    var read = readGradeInputs();
+    if (read.bad || !read.vals.length) { avgPreview.hidden = true; return; }
+
+    var grades = {};
+    read.vals.forEach(function (v) { grades[v.key] = v.value; });
+
+    var tier = checkedTier();
+    var draft = {
+      status: status,
+      semester: status === "current" ? checkedSemester() : null,
+      credits: Number(creditIn.value) === 2 ? 2 : 1,
+      tier: tier || 1,
+      grades: grades
+    };
+
+    var sem = semesterValues(draft);
+    if (!sem.length) { avgPreview.hidden = true; return; }
+
+    var line = "Semester grade" + (sem.length === 1 ? " " : "s ") + sem.map(formatGrade).join(", ");
+    if (tier) line += " → " + formatPoints(coursePoints(draft)) + " grade points";
+    var earned = courseCredits(draft);
+    line += " · " + formatCredits(earned) + " credit" + (earned === 1 ? "" : "s");
+
+    avgPreview.hidden = false;
+    avgPreview.textContent = line;
+  }
+
+  /* ------------------------------------------------------------------ *
+   *  form                                                               *
+   * ------------------------------------------------------------------ */
+
+  function showError(msg) { errorBox.textContent = msg; errorBox.hidden = false; }
+
+  function resetForm(keepContext) {
+    nameIn.value = "";
+    var tierEl = form.querySelector('input[name="tier"]:checked');
+    if (tierEl) tierEl.checked = false;
+
+    if (!keepContext) {
+      var past = form.querySelector('input[name="status"][value="past"]');
+      if (past) past.checked = false;
+      gradeFields.textContent = "";
+      gradesWrap.hidden = true;
+      semesterWrap.hidden = true;
+      avgPreview.hidden = true;
+    } else {
+      renderGradeFields(null);
+    }
+
+    creditIn.value = "1";
+    errorBox.hidden = true;
+  }
+
+  function endEdit() {
+    editingId = null;
+    editingBar.hidden = true;
+    formTitle.textContent = "Inscribe a Course";
+    formSub.textContent = "One course at a time";
+    submitBtn.textContent = "Inscribe Course";
+    resetForm(false);
+  }
+
+  function startEdit(course) {
+    editingId = course.id;
+
+    nameIn.value = course.name;
+    yearSel.value = String(course.year);
+    creditIn.value = String(course.credits);
+
+    var tierEl = form.querySelector('input[name="tier"][value="' + course.tier + '"]');
+    if (tierEl) tierEl.checked = true;
+
+    var statusEl = form.querySelector('input[name="status"][value="' + course.status + '"]');
+    if (statusEl) statusEl.checked = true;
+
+    var semEl = form.querySelector('input[name="semester"][value="' + (course.semester || 1) + '"]');
+    if (semEl) semEl.checked = true;
+
+    renderGradeFields(course.grades);
+
+    editingBar.hidden = false;
+    formTitle.textContent = "Amend a Course";
+    formSub.textContent = "Editing " + (course.name || "course");
+    submitBtn.textContent = "Save Changes";
+    errorBox.hidden = true;
+
+    if (window.matchMedia("(max-width: 860px)").matches) {
+      formPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    formPanel.classList.add("flash");
+    setTimeout(function () { formPanel.classList.remove("flash"); }, 900);
+    nameIn.focus();
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    var tier = checkedTier();
+    var status = checkedStatus();
+    var year = Number(yearSel.value);
+
+    if (!tier) { showError("Choose the course type."); return; }
+    if (!status) { showError("Say whether the course is finished or still in progress."); return; }
+    if (!(year >= 7 && year <= 12)) { showError("Choose which year the course belongs to."); return; }
+
+    var semester = status === "current" ? checkedSemester() : null;
+    var read = readGradeInputs();
+
+    if (read.bad) { showError("Each grade must be a number from 0 to 100."); return; }
+    if (!read.vals.length) {
+      showError(status === "current"
+        ? "Enter at least one grade you have so far."
+        : "Enter at least one semester grade.");
+      return;
+    }
+
+    var grades = {};
+    read.vals.forEach(function (v) { grades[v.key] = v.value; });
+
+    var course = {
+      id: editingId || (Date.now().toString(36) + Math.random().toString(36).slice(2, 7)),
+      name: nameIn.value.trim(),
+      tier: tier,
+      credits: Number(creditIn.value) === 2 ? 2 : 1,
+      year: year,
+      status: status,
+      semester: semester,
+      grades: grades
+    };
+
+    if (editingId) {
+      var idx = -1;
+      state.courses.forEach(function (c, i) { if (c.id === editingId) idx = i; });
+      if (idx !== -1) state.courses[idx] = course;
+      else state.courses.push(course);
+      toast("Course amended");
+    } else {
+      state.courses.push(course);
+    }
+
+    var wasEditing = !!editingId;
+    editingId = null;
+    editingBar.hidden = true;
+    formTitle.textContent = "Inscribe a Course";
+    formSub.textContent = "One course at a time";
+    submitBtn.textContent = "Inscribe Course";
+
+    if (filterYear !== "all" && course.year !== Number(filterYear)) {
+      /* keep the new/edited course visible */
+      filterYear = "all";
+    }
+
+    render();
+    persist();
+
+    resetForm(true);
+    yearSel.value = String(year);
+    nameIn.focus();
+    if (wasEditing) errorBox.hidden = true;
+  });
+
+  $("cancelEdit").addEventListener("click", endEdit);
+
+  yearFilter.addEventListener("change", function () {
+    filterYear = yearFilter.value;
+    render();
+  });
+
+  clearBtn.addEventListener("click", function () {
+    if (!state.courses.length) return;
+    var n = state.courses.length;
+    if (!window.confirm("Erase all " + n + " course" + (n === 1 ? "" : "s") + " from the ledger?")) return;
+    state.courses = [];
+    filterYear = "all";
+    endEdit();
+    render();
+    persist();
+  });
+
+  Array.prototype.forEach.call(form.querySelectorAll('input[name="status"]'), function (el) {
+    el.addEventListener("change", function () { renderGradeFields(null); });
+  });
+  Array.prototype.forEach.call(form.querySelectorAll('input[name="semester"]'), function (el) {
+    el.addEventListener("change", function () { renderGradeFields(null); });
+  });
+  Array.prototype.forEach.call(form.querySelectorAll('input[name="tier"]'), function (el) {
+    el.addEventListener("change", updateAveragePreview);
+  });
+
+  /* ------------------------------------------------------------------ *
+   *  static build                                                       *
+   * ------------------------------------------------------------------ */
+
+  function buildScaleTable() {
+    var body = $("scaleBody");
+    var frag = document.createDocumentFragment();
+    function addRow(label, cells) {
+      var tr = document.createElement("tr");
+      var th = document.createElement("th");
+      th.setAttribute("scope", "row");
+      th.textContent = label;
+      tr.appendChild(th);
+      cells.forEach(function (pair) {
+        var td = document.createElement("td");
+        td.className = pair[1];
+        td.textContent = pair[0];
+        tr.appendChild(td);
+      });
+      frag.appendChild(tr);
+    }
+    for (var g = 100; g >= 70; g--) {
+      var row = SCALE[g];
+      addRow(String(g), [[row[0].toFixed(1), "t3h"], [row[1].toFixed(1), "t2h"], [row[2].toFixed(1), "t1h"]]);
+    }
+    addRow("Below 70", [["0.0", "t3h"], ["0.0", "t2h"], ["0.0", "t1h"]]);
+    body.appendChild(frag);
+  }
+
+  /* ------------------------------------------------------------------ *
+   *  auth                                                               *
+   * ------------------------------------------------------------------ */
+
+  function toast(msg) {
+    toastEl.textContent = msg;
+    toastEl.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.hidden = true; }, 2600);
+  }
+
+  function setMode(mode) {
+    authMode = mode;
+    var isSignup = mode === "signup";
+    authTitle.textContent = isSignup ? "Forge an Account" : "Enter the Hall";
+    authSubmit.textContent = isSignup ? "Create Account" : "Sign In";
+    confirmWrap.hidden = !isSignup;
+    uPass.setAttribute("autocomplete", isSignup ? "new-password" : "current-password");
+    authError.hidden = true;
+    Array.prototype.forEach.call(document.querySelectorAll(".seg button"), function (b) {
+      b.classList.toggle("on", b.getAttribute("data-mode") === mode);
+    });
+  }
+
+  function openAuth() {
+    authError.hidden = true;
+    authForm.reset();
+    setMode("login");
+    modal.hidden = false;
+    uName.focus();
+  }
+  function closeAuth() { modal.hidden = true; }
+
+  accountBtn.addEventListener("click", function () {
+    if (state.user) signOut();
+    else openAuth();
+  });
+  $("closeAuth").addEventListener("click", closeAuth);
+  modal.addEventListener("click", function (e) { if (e.target === modal) closeAuth(); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !modal.hidden) closeAuth();
+  });
+  Array.prototype.forEach.call(document.querySelectorAll(".seg button"), function (b) {
+    b.addEventListener("click", function () {
+      authForm.reset();
+      setMode(b.getAttribute("data-mode"));
+      uName.focus();
+    });
+  });
+
+  function authFail(msg) { authError.textContent = msg; authError.hidden = false; }
+
+  authForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    authError.hidden = true;
+
+    var username = uName.value.trim();
+    var password = uPass.value;
+
+    if (!username || !password) { authFail("Both fields are required."); return; }
+    if (authMode === "signup") {
+      if (!/^[A-Za-z0-9_.-]{3,24}$/.test(username)) { authFail("Username: 3–24 characters, letters, numbers, _ . or -"); return; }
+      if (password.length < 8) { authFail("Password must be at least 8 characters."); return; }
+      if (password !== uPass2.value) { authFail("The two passwords differ."); return; }
+    }
+
+    authSubmit.disabled = true;
+    authSubmit.textContent = authMode === "signup" ? "Forging…" : "Opening…";
+
+    var guestCourses = state.courses.slice();
+    var wasGuest = state.courses.length;
+
+    api("POST", authMode === "signup" ? "/api/signup" : "/api/login", { username: username, password: password })
+      .then(function (res) {
+        if (!res.ok) {
+          authFail(res.data && res.data.error ? res.data.error : "Something went wrong. Try again.");
+          return null;
+        }
+        state.user = res.data.username;
+        return api("GET", "/api/courses").then(function (rc) {
+          var remote = rc.ok ? sanitize(rc.data.courses) : [];
+          if (remote.length === 0 && wasGuest > 0) {
+            state.courses = guestCourses;
+            return api("PUT", "/api/courses", { courses: state.courses }).then(function () { return "imported"; });
+          }
+          state.courses = remote;
+          return "loaded";
+        });
+      })
+      .then(function (result) {
+        if (result === null) return;
+        closeAuth();
+        renderAccount();
+        render();
+        toast(result === "imported"
+          ? "Signed in — " + state.courses.length + " course(s) carried over"
+          : "Welcome, " + state.user);
+      })
+      .catch(function () { authFail("Could not reach the server. Try again."); })
+      .then(function () {
+        authSubmit.disabled = false;
+        setMode(authMode);
+      });
+  });
+
+  function dropToGuest() {
+    state.user = null;
+    state.courses = readLocal();
+    renderAccount();
+    render();
+  }
+
+  function signOut() {
+    clearTimeout(saveTimer);
+    if (state.courses.length) api("PUT", "/api/courses", { courses: state.courses }).catch(function () {});
+    api("POST", "/api/logout").then(function () { dropToGuest(); toast("Signed out"); })
+      .catch(function () { dropToGuest(); toast("Signed out"); });
+  }
+
+  /* ------------------------------------------------------------------ *
+   *  boot                                                               *
+   * ------------------------------------------------------------------ */
+
+  buildScaleTable();
+
+  try {
+    var remembered = Number(localStorage.getItem(YEAR_KEY));
+    if (remembered >= 7 && remembered <= 12) yearSel.value = String(remembered);
+  } catch (e) {}
+
+  api("GET", "/api/me").then(function (res) {
+    var username = res.ok && res.data ? res.data.username : null;
+    if (!username) {
+      state.user = null;
+      state.courses = readLocal();
+      renderAccount();
+      render();
+      return;
+    }
+    state.user = username;
+    return api("GET", "/api/courses").then(function (rc) {
+      state.courses = rc.ok ? sanitize(rc.data.courses) : readLocal();
+      renderAccount();
+      render();
+    });
+  }).catch(function () {
+    state.user = null;
+    state.courses = readLocal();
+    renderAccount();
+    render();
+    setSaveState("Offline — local only", "bad");
+  });
+})();
+</script>
+</body>
+</html>

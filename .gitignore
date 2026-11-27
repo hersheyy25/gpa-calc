@@ -1,0 +1,19 @@
+# local database (contains password hashes and user data)
+data/
+*.db
+
+# python
+*.pyc
+__pycache__/
+
+# dependencies and build output
+node_modules/
+.wrangler/
+dist/
+
+# local secrets
+.env
+.dev.vars
+
+# local verification screenshots
+artifacts/
